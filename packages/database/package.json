@@ -1,0 +1,22 @@
+{
+  "name": "@codeverse/database",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "prisma generate && tsc",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push"
+  },
+  "dependencies": {
+    "@codeverse/types": "workspace:*",
+    "@prisma/client": "^5.10.2",
+    "ioredis": "^5.3.2",
+    "mongoose": "^8.2.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.10.2",
+    "typescript": "^5.4.2"
+  }
+}

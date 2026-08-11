@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@codeverse/types": ["../../packages/types/src"],
-      "@codeverse/utils": ["../../packages/utils/src"]
+      "@codeverse/utils": ["../../packages/utils/src"],
+      "@codeverse/database": ["../../packages/database/src"]
     }
   }
 }
