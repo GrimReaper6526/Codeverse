@@ -1,0 +1,36 @@
+name: CodeVerse Automated Deployment Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  deploy-staging:
+    name: Build & Deploy Container Services
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log Deployment Initiation
+        run: |
+          echo "🚀 Initiating CodeVerse release build for tag: ${{ github.ref }}"
+          echo "Build Target: Production Cluster Architecture"
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.0.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Dependencies & Build Artifacts
+        run: |
+          pnpm install --frozen-lockfile || pnpm install
+          pnpm build
