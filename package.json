@@ -1,0 +1,22 @@
+{
+  "name": "codeverse-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CodeVerse - AI-Native 3D Software Universe Platform",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css}\"",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "^1.13.0",
+    "typescript": "^5.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

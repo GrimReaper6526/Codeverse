@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@codeverse/ui": ["./packages/ui/src"],
+      "@codeverse/types": ["./packages/types/src"],
+      "@codeverse/utils": ["./packages/utils/src"],
+      "@codeverse/config": ["./packages/config/src"],
+      "@codeverse/ai-sdk": ["./packages/ai-sdk/src"],
+      "@codeverse/universe-sdk": ["./packages/universe-sdk/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist", ".next"]
+}

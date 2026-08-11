@@ -1,0 +1,39 @@
+# Dependencies & Package Managers
+node_modules/
+.pnpm-store/
+.yarn/
+.npm/
+
+# Build & Compilation Outputs
+dist/
+build/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+
+# Documentation Files (Strict User Rule: Do NOT commit/push any .md files)
+*.md
+
+# Environment Variables, Secrets & Credentials
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.pfx
+*.crt
+*.cert
+credentials.json
+credentials.yaml
+credentials.xml
+secrets.json
+secrets.yaml
+
+# OS & IDE Files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.user
