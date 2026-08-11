@@ -3,8 +3,17 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'CodeVerse — AI-Native 3D Software Universe',
-  description: 'Transforming software repositories into interactive 3D universes with AI repository understanding, dependency graph physics, and live telemetry.',
-  keywords: ['3D Universe', 'Software Architecture', 'Next.js', 'Three.js', 'React Three Fiber', 'AI Coding Agent', 'RAG'],
+  description:
+    'Transforming software repositories into interactive 3D universes with AI repository understanding, dependency graph physics, and live telemetry.',
+  keywords: [
+    '3D Universe',
+    'Software Architecture',
+    'Next.js',
+    'Three.js',
+    'React Three Fiber',
+    'AI Coding Agent',
+    'RAG',
+  ],
 };
 
 export default function RootLayout({

@@ -16,10 +16,12 @@ const UniverseCanvas = dynamic(
     loading: () => (
       <div className="w-full h-full bg-slate-950 flex flex-col items-center justify-center text-slate-400">
         <div className="w-10 h-10 border-4 border-indigo-500 border-t-cyan-400 rounded-full animate-spin mb-3" />
-        <span className="text-xs font-mono text-cyan-400 animate-pulse">Initializing 3D WebGL Canvas...</span>
+        <span className="text-xs font-mono text-cyan-400 animate-pulse">
+          Initializing 3D WebGL Canvas...
+        </span>
       </div>
     ),
-  }
+  },
 );
 
 export default function AppShell() {

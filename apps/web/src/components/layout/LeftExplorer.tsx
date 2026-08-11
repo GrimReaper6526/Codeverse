@@ -1,17 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  Folder, 
-  FileCode, 
-  ChevronRight, 
-  ChevronDown, 
-  Globe, 
-  Server, 
-  Package, 
+import {
+  Folder,
+  FileCode,
+  ChevronRight,
+  ChevronDown,
+  Globe,
+  Server,
+  Package,
   ShieldCheck,
   Zap,
-  Filter
+  Filter,
 } from 'lucide-react';
 
 interface ExplorerItem {
@@ -62,8 +62,8 @@ export const LeftExplorer: React.FC = () => {
             Universe Explorer
           </span>
         </div>
-        <button 
-          type="button" 
+        <button
+          type="button"
           aria-label="Filter Explorer Symbols"
           className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded cursor-pointer"
         >
@@ -93,7 +93,7 @@ export const LeftExplorer: React.FC = () => {
       <div className="flex-1 overflow-y-auto p-2 space-y-1 text-xs">
         {mockTree.map((item) => (
           <div key={item.id} className="space-y-1">
-            <div 
+            <div
               onClick={() => toggleFolder(item.id)}
               className="flex items-center space-x-1.5 p-1.5 rounded-md hover:bg-slate-800/60 text-slate-300 hover:text-white cursor-pointer transition-colors"
             >

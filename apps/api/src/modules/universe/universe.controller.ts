@@ -25,7 +25,7 @@ export class UniverseController {
 
   @Post('refresh')
   @ApiOperation({ summary: 'Re-analyze repository AST and rebuild 3D graph layout' })
-  refreshGraph(@Body() body: any) {
+  refreshGraph(@Body() _body: any) {
     return {
       status: 'graph_rebuilding',
       jobId: `job-${Date.now()}`,

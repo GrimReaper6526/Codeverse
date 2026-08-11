@@ -10,8 +10,14 @@ export interface IRepositoryGraphDocument extends Document {
 
 const RepositoryGraphSchema = new Schema<IRepositoryGraphDocument>({
   repositoryId: { type: String, required: true, index: true },
-  nodes: { type: Array, default: [] },
-  edges: { type: Array, default: [] },
+  nodes: {
+    type: [{ id: String, name: String, type: String, symbolCount: Number }],
+    default: [],
+  },
+  edges: {
+    type: [{ id: String, source: String, target: String, strength: Number }],
+    default: [],
+  },
   generatedAt: { type: Date, default: Date.now },
 });
 
@@ -35,8 +41,7 @@ const AIMemorySchema = new Schema<IAIMemoryDocument>({
 });
 
 export const AIMemoryModel =
-  mongoose.models.AIMemory ||
-  mongoose.model<IAIMemoryDocument>('AIMemory', AIMemorySchema);
+  mongoose.models.AIMemory || mongoose.model<IAIMemoryDocument>('AIMemory', AIMemorySchema);
 
 // MongoDB Helper Connector
 export async function connectMongoDB(uri: string): Promise<typeof mongoose> {

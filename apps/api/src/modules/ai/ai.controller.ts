@@ -19,7 +19,12 @@ export class AiController {
   @ApiOperation({ summary: 'Get list of supported local & cloud AI models' })
   getModels() {
     return [
-      { id: 'gemini-1.5-pro', name: 'Google Gemini 1.5 Pro', provider: 'google', status: 'available' },
+      {
+        id: 'gemini-1.5-pro',
+        name: 'Google Gemini 1.5 Pro',
+        provider: 'google',
+        status: 'available',
+      },
       { id: 'deepseek-r1', name: 'DeepSeek R1 / V3', provider: 'deepseek', status: 'available' },
       { id: 'qwen-2.5-coder', name: 'Qwen 2.5 Coder', provider: 'local', status: 'available' },
       { id: 'openai-gpt-4o', name: 'OpenAI GPT-4o', provider: 'openai', status: 'available' },

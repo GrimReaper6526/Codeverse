@@ -92,10 +92,14 @@ const EnergyLink: React.FC<{
   start: [number, number, number];
   end: [number, number, number];
 }> = ({ start, end }) => {
-  const points = useMemo(() => [new THREE.Vector3(...start), new THREE.Vector3(...end)], [start, end]);
+  const points = useMemo(
+    () => [new THREE.Vector3(...start), new THREE.Vector3(...end)],
+    [start, end],
+  );
   const lineGeometry = useMemo(() => new THREE.BufferGeometry().setFromPoints(points), [points]);
 
   return (
+    // @ts-expect-error - R3F line primitive JSX element mapping
     <line geometry={lineGeometry}>
       <lineBasicMaterial color="#38bdf8" opacity={0.3} transparent linewidth={1} />
     </line>
@@ -149,7 +153,7 @@ export const UniverseCanvas: React.FC = () => {
         })}
 
         {/* Interactive Orbit Controls */}
-        <OrbitControls enableDamping dampingFactor={0.05} maxDistance={40} minDistance={4} />
+        <OrbitControls makeDefault />
       </Canvas>
 
       {/* Selected Node Status Bar */}

@@ -6,7 +6,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 export class AuthController {
   @Post('login')
   @ApiOperation({ summary: 'User authentication login' })
-  login(@Body() body: any) {
+  login(@Body() _body: any) {
     return {
       token: 'demo-jwt-token-codeverse-v1',
       user: {

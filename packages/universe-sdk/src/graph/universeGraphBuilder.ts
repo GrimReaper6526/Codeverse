@@ -2,13 +2,62 @@ import { SoftwareGraphNode, SoftwareGraphEdge, UniverseGraph } from '@codeverse/
 
 export function createSampleUniverseGraph(): UniverseGraph {
   const nodes: SoftwareGraphNode[] = [
-    { id: 'galaxy-hub', name: 'CodeVerse Repository Galaxy', type: 'galaxy', path: '/', symbolCount: 313, connections: ['web-app', 'api-backend', 'universe-sdk', 'ai-sdk'] },
-    { id: 'web-app', name: 'apps/web (Next.js App)', type: 'planet', path: '/apps/web', symbolCount: 42, connections: ['universe-sdk', 'ai-sdk'] },
-    { id: 'api-backend', name: 'apps/api (NestJS API)', type: 'service', path: '/apps/api', symbolCount: 68, connections: ['ai-sdk'] },
-    { id: 'universe-sdk', name: 'packages/universe-sdk (3D Physics)', type: 'planet', path: '/packages/universe-sdk', symbolCount: 104, connections: ['types-pkg'] },
-    { id: 'ai-sdk', name: 'packages/ai-sdk (Model Router)', type: 'service', path: '/packages/ai-sdk', symbolCount: 56, connections: ['types-pkg'] },
-    { id: 'ui-pkg', name: 'packages/ui (Design Tokens)', type: 'moon', path: '/packages/ui', symbolCount: 28, connections: ['web-app'] },
-    { id: 'types-pkg', name: 'packages/types (AST Schemas)', type: 'satellite', path: '/packages/types', symbolCount: 15, connections: [] },
+    {
+      id: 'galaxy-hub',
+      name: 'CodeVerse Repository Galaxy',
+      type: 'galaxy',
+      path: '/',
+      symbolCount: 313,
+      connections: ['web-app', 'api-backend', 'universe-sdk', 'ai-sdk'],
+    },
+    {
+      id: 'web-app',
+      name: 'apps/web (Next.js App)',
+      type: 'planet',
+      path: '/apps/web',
+      symbolCount: 42,
+      connections: ['universe-sdk', 'ai-sdk'],
+    },
+    {
+      id: 'api-backend',
+      name: 'apps/api (NestJS API)',
+      type: 'service',
+      path: '/apps/api',
+      symbolCount: 68,
+      connections: ['ai-sdk'],
+    },
+    {
+      id: 'universe-sdk',
+      name: 'packages/universe-sdk (3D Physics)',
+      type: 'planet',
+      path: '/packages/universe-sdk',
+      symbolCount: 104,
+      connections: ['types-pkg'],
+    },
+    {
+      id: 'ai-sdk',
+      name: 'packages/ai-sdk (Model Router)',
+      type: 'service',
+      path: '/packages/ai-sdk',
+      symbolCount: 56,
+      connections: ['types-pkg'],
+    },
+    {
+      id: 'ui-pkg',
+      name: 'packages/ui (Design Tokens)',
+      type: 'moon',
+      path: '/packages/ui',
+      symbolCount: 28,
+      connections: ['web-app'],
+    },
+    {
+      id: 'types-pkg',
+      name: 'packages/types (AST Schemas)',
+      type: 'satellite',
+      path: '/packages/types',
+      symbolCount: 15,
+      connections: [],
+    },
   ];
 
   const edges: SoftwareGraphEdge[] = [

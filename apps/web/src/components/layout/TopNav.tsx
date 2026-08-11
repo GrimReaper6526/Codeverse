@@ -1,17 +1,7 @@
 'use client';
 
 import React from 'react';
-import { 
-  Box, 
-  Search, 
-  Layers, 
-  Orbit, 
-  Cpu, 
-  Settings, 
-  Bell, 
-  Github,
-  Command
-} from 'lucide-react';
+import { Box, Search, Layers, Orbit, Cpu, Settings, Bell, Github, Command } from 'lucide-react';
 
 export const TopNav: React.FC = () => {
   return (
@@ -45,7 +35,7 @@ export const TopNav: React.FC = () => {
 
       {/* Global Command Palette / Search Trigger */}
       <div className="flex-1 max-w-md mx-8">
-        <button 
+        <button
           type="button"
           aria-label="Open command palette search"
           className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-400 hover:border-slate-700 hover:bg-slate-900 transition-all cursor-pointer group"
@@ -64,7 +54,7 @@ export const TopNav: React.FC = () => {
       {/* Camera Presets & Actions */}
       <div className="flex items-center space-x-3">
         <div className="flex items-center bg-slate-900 p-0.5 rounded-lg border border-slate-800 text-xs">
-          <button 
+          <button
             type="button"
             aria-label="Orbit Camera View"
             className="px-2.5 py-1 rounded-md bg-indigo-600/20 text-indigo-300 font-medium border border-indigo-500/30 flex items-center space-x-1 cursor-pointer"
@@ -72,7 +62,7 @@ export const TopNav: React.FC = () => {
             <Orbit className="w-3.5 h-3.5" />
             <span>Orbit</span>
           </button>
-          <button 
+          <button
             type="button"
             aria-label="System Node Focus View"
             className="px-2.5 py-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors flex items-center space-x-1 cursor-pointer"
@@ -85,14 +75,14 @@ export const TopNav: React.FC = () => {
         <div className="h-4 w-px bg-slate-800" />
 
         <div className="flex items-center space-x-1">
-          <button 
+          <button
             type="button"
             aria-label="System notifications"
             className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg transition-colors cursor-pointer"
           >
             <Bell className="w-4 h-4" />
           </button>
-          <button 
+          <button
             type="button"
             aria-label="Project Settings"
             className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-900 rounded-lg transition-colors cursor-pointer"

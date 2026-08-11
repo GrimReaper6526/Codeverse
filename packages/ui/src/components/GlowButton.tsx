@@ -17,15 +17,15 @@ export const GlowButton: React.FC<GlowButtonProps> = ({
     size === 'sm'
       ? 'px-2.5 py-1 text-xs'
       : size === 'lg'
-      ? 'px-5 py-2.5 text-sm'
-      : 'px-3.5 py-1.5 text-xs';
+        ? 'px-5 py-2.5 text-sm'
+        : 'px-3.5 py-1.5 text-xs';
 
   const variantStyles =
     variant === 'cyan'
       ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/30 hover:border-cyan-400 hover:shadow-glow-cyan'
       : variant === 'indigo'
-      ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 hover:bg-indigo-500/30 hover:border-indigo-400 hover:shadow-glow-indigo'
-      : 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-700/80 hover:text-white';
+        ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40 hover:bg-indigo-500/30 hover:border-indigo-400 hover:shadow-glow-indigo'
+        : 'bg-slate-800/60 text-slate-300 border-slate-700 hover:bg-slate-700/80 hover:text-white';
 
   return (
     <button

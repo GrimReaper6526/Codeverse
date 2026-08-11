@@ -1,13 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Terminal, Activity, AlertTriangle, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
+import { Terminal, Activity, CheckCircle2, ChevronUp, ChevronDown } from 'lucide-react';
 
 export const BottomConsole: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className={`w-full glass-panel border-t border-slate-800/80 z-20 transition-all duration-300 select-none ${collapsed ? 'h-8' : 'h-28'}`}>
+    <div
+      className={`w-full glass-panel border-t border-slate-800/80 z-20 transition-all duration-300 select-none ${collapsed ? 'h-8' : 'h-28'}`}
+    >
       {/* Header bar */}
       <div className="h-8 px-4 border-b border-slate-800/60 bg-slate-950/60 flex items-center justify-between text-xs text-slate-400">
         <div className="flex items-center space-x-4">
@@ -29,9 +31,9 @@ export const BottomConsole: React.FC = () => {
           </div>
         </div>
 
-        <button 
+        <button
           type="button"
-          aria-label={collapsed ? "Expand Console" : "Collapse Console"}
+          aria-label={collapsed ? 'Expand Console' : 'Collapse Console'}
           onClick={() => setCollapsed(!collapsed)}
           className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded cursor-pointer transition-colors"
         >

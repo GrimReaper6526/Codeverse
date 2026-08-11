@@ -1,15 +1,7 @@
 'use client';
 
 import React from 'react';
-import { 
-  Orbit, 
-  RotateCcw, 
-  Zap, 
-  Camera, 
-  Sliders, 
-  HelpCircle,
-  Eye
-} from 'lucide-react';
+import { Orbit, RotateCcw, Zap, Camera, Sliders, HelpCircle, Eye } from 'lucide-react';
 
 export const ActionDock: React.FC = () => {
   return (

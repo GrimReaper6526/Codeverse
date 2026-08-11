@@ -1,16 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  Sparkles, 
-  Send, 
-  Bot, 
-  User, 
-  Cpu, 
-  Terminal, 
-  ChevronRight, 
-  Maximize2
-} from 'lucide-react';
+import { Sparkles, Send, Bot, User, Cpu, Maximize2 } from 'lucide-react';
 
 interface ChatMessage {
   id: string;
@@ -77,8 +68,8 @@ export const RightAIAssistant: React.FC = () => {
             <Cpu className="w-3 h-3" />
             <span>Auto-Router</span>
           </div>
-          <button 
-            type="button" 
+          <button
+            type="button"
             aria-label="Expand AI Assistant Panel"
             className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded cursor-pointer"
           >
@@ -92,9 +83,7 @@ export const RightAIAssistant: React.FC = () => {
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`flex flex-col ${
-              msg.sender === 'user' ? 'items-end' : 'items-start'
-            }`}
+            className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
           >
             <div className="flex items-center space-x-1 text-[10px] text-slate-500 mb-1 px-1">
               {msg.sender === 'ai' ? (
@@ -128,15 +117,15 @@ export const RightAIAssistant: React.FC = () => {
 
       {/* Quick Prompts */}
       <div className="px-3 py-1.5 border-t border-slate-800/40 bg-slate-950/40 flex items-center space-x-1.5 overflow-x-auto text-[10px]">
-        <button 
-          type="button" 
+        <button
+          type="button"
           onClick={() => setInput('Explain graph engine dependencies')}
           className="whitespace-nowrap px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/30 cursor-pointer transition-all"
         >
           ⚡ Explain Dependencies
         </button>
-        <button 
-          type="button" 
+        <button
+          type="button"
           onClick={() => setInput('Find memory leaks in render loop')}
           className="whitespace-nowrap px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-cyan-300 hover:border-cyan-500/30 cursor-pointer transition-all"
         >
@@ -145,7 +134,10 @@ export const RightAIAssistant: React.FC = () => {
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSend} className="p-3 border-t border-slate-800/80 bg-slate-950/80 flex items-center space-x-2">
+      <form
+        onSubmit={handleSend}
+        className="p-3 border-t border-slate-800/80 bg-slate-950/80 flex items-center space-x-2"
+      >
         <input
           type="text"
           value={input}

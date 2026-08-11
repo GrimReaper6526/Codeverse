@@ -25,5 +25,7 @@
       "@codeverse/utils": ["../../packages/utils/src"],
       "@codeverse/database": ["../../packages/database/src"]
     }
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "dist/**/*", "**/dist/**"]
 }

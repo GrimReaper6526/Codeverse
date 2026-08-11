@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Orbit, Sparkles, Cpu, Layers, Maximize2, Zap } from 'lucide-react';
+import { Orbit, Sparkles, Cpu, Zap } from 'lucide-react';
 
 export const UniverseCanvasPlaceholder: React.FC = () => {
   return (
@@ -22,7 +22,8 @@ export const UniverseCanvasPlaceholder: React.FC = () => {
           CodeVerse 3D Universe Engine
         </h1>
         <p className="text-xs text-slate-400 leading-relaxed mb-6">
-          Transforming repository AST graphs into interactive 3D solar systems. Explore modules, services, and functions with physics-based force layout.
+          Transforming repository AST graphs into interactive 3D solar systems. Explore modules,
+          services, and functions with physics-based force layout.
         </p>
 
         {/* Metaphor Indicators */}
@@ -51,7 +52,7 @@ export const UniverseCanvasPlaceholder: React.FC = () => {
         </div>
 
         <div className="flex items-center space-x-3 text-xs">
-          <button 
+          <button
             type="button"
             className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-slate-950 font-bold transition-all shadow-glow-cyan cursor-pointer flex items-center space-x-1.5"
           >
