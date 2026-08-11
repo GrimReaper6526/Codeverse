@@ -21,4 +21,5 @@ if (process.env.NODE_ENV === 'production') {
   prisma = globalWithPrisma.prisma;
 }
 
+export * from '@prisma/client';
 export { prisma, PrismaClient };
