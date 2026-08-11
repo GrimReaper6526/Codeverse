@@ -7,7 +7,12 @@
   "scripts": {
     "build": "prisma generate && tsc",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@codeverse/types": "workspace:*",
@@ -17,6 +22,7 @@
   },
   "devDependencies": {
     "prisma": "^5.10.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   }
 }
