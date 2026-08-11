@@ -1,22 +1,24 @@
 {
-  "name": "codeverse-monorepo",
+  "name": "codeverse",
   "version": "1.0.0",
   "private": true,
-  "description": "CodeVerse - AI-Native 3D Software Universe Platform",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css}\"",
-    "clean": "turbo run clean"
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "eslint": "^8.57.0",
+    "husky": "^9.0.11",
     "prettier": "^3.2.5",
-    "turbo": "^1.13.0",
+    "turbo": "^1.12.4",
     "typescript": "^5.4.2"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
-  }
+  "packageManager": "pnpm@9.0.0"
 }
