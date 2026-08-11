@@ -1,4 +1,9 @@
-import { Injectable, ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserRepository, AuthProvider, Role } from '@codeverse/database';
@@ -48,7 +53,9 @@ export class AuthService {
     }
 
     if (!user.passwordHash) {
-      throw new UnauthorizedException('Account registered using OAuth. Please login via social provider.');
+      throw new UnauthorizedException(
+        'Account registered using OAuth. Please login via social provider.',
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(dto.password, user.passwordHash);

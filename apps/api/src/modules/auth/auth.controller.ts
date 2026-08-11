@@ -24,7 +24,11 @@ export class AuthController {
   @Public()
   @Post('login')
   @ApiOperation({ summary: 'Authenticate user with email and password' })
-  @ApiResponse({ status: 200, description: 'User authenticated successfully', type: AuthResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: 'User authenticated successfully',
+    type: AuthResponseDto,
+  })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }

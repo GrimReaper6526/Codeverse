@@ -18,7 +18,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_SECRET') || 'codeverse-default-super-secret-jwt-key-2026',
+      secretOrKey:
+        configService.get<string>('JWT_SECRET') || 'codeverse-default-super-secret-jwt-key-2026',
     });
   }
 
