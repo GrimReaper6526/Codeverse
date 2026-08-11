@@ -1,0 +1,21 @@
+{
+  "name": "@codeverse/ui",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@codeverse/types": "workspace:*",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.354.0",
+    "react": "^18.2.0",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.61",
+    "typescript": "^5.4.2"
+  }
+}
