@@ -1,5 +1,8 @@
 export * from './mongodb';
 export * from './redis';
+export * from './repositories/userRepository';
+export * from './repositories/projectRepository';
+export * from './repositories/repoRepository';
 
 import { PrismaClient } from '@prisma/client';
 
