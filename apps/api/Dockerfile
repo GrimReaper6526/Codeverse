@@ -12,6 +12,9 @@ COPY apps/api/package.json ./apps/api/
 COPY packages/types/package.json ./packages/types/
 COPY packages/ui/package.json ./packages/ui/
 COPY packages/utils/package.json ./packages/utils/
+COPY packages/config/package.json ./packages/config/
+COPY packages/ai-sdk/package.json ./packages/ai-sdk/
+COPY packages/database/package.json ./packages/database/
 COPY packages/universe-sdk/package.json ./packages/universe-sdk/
 RUN pnpm install --frozen-lockfile || pnpm install
 
@@ -19,6 +22,8 @@ RUN pnpm install --frozen-lockfile || pnpm install
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ENV DATABASE_URL="postgresql://user:password@localhost:5432/codeverse_db"
+RUN pnpm --filter @codeverse/database db:generate || true
 RUN pnpm --filter @codeverse/api build
 
 # Stage 4: Runner

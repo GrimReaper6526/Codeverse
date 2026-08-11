@@ -29,6 +29,11 @@ jobs:
       - name: Install Workspace Dependencies
         run: pnpm install --frozen-lockfile || pnpm install
 
+      - name: Generate Prisma Database Client
+        env:
+          DATABASE_URL: "postgresql://user:password@localhost:5432/codeverse_db"
+        run: pnpm --filter @codeverse/database db:generate || true
+
       - name: Run Code Quality Format Check
         run: pnpm prettier --check "**/*.{ts,tsx,js,jsx,json,css}" || true
 
