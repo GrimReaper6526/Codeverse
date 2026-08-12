@@ -6,6 +6,7 @@ import { RepoSyncService } from './repo-sync.service';
 import { RepoAnalyzerService } from './repo-analyzer.service';
 import { FileIndexingService } from './file-indexing.service';
 import { DocIndexingService } from './doc-indexing.service';
+import { JobsService } from './jobs.service';
 
 @Module({
   controllers: [ReposController],
@@ -16,6 +17,7 @@ import { DocIndexingService } from './doc-indexing.service';
     RepoAnalyzerService,
     FileIndexingService,
     DocIndexingService,
+    JobsService,
   ],
   exports: [
     ReposService,
@@ -24,6 +26,7 @@ import { DocIndexingService } from './doc-indexing.service';
     RepoAnalyzerService,
     FileIndexingService,
     DocIndexingService,
+    JobsService,
   ],
 })
 export class ReposModule {}

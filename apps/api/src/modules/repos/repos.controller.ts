@@ -1,11 +1,12 @@
 import { Controller, Get, Post, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { ReposService } from './repos.service';
 import { GithubService } from './github.service';
 import { RepoSyncService } from './repo-sync.service';
 import { RepoAnalyzerService } from './repo-analyzer.service';
 import { FileIndexingService } from './file-indexing.service';
 import { DocIndexingService } from './doc-indexing.service';
+import { JobsService, JobType } from './jobs.service';
 import { ImportRepoDto } from './dto/import-repo.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -21,12 +22,43 @@ export class ReposController {
     private readonly repoAnalyzerService: RepoAnalyzerService,
     private readonly fileIndexingService: FileIndexingService,
     private readonly docIndexingService: DocIndexingService,
+    private readonly jobsService: JobsService,
   ) {}
 
   @Post('import')
   @ApiOperation({ summary: 'Import and register a new Git repository' })
   async importRepository(@Body() dto: ImportRepoDto) {
     return this.reposService.importRepository(dto);
+  }
+
+  @Post(':id/jobs')
+  @ApiOperation({ summary: 'Enqueue an asynchronous background job for repository' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        type: {
+          type: 'string',
+          enum: ['SYNC', 'ANALYZE', 'INDEX_FILES', 'INDEX_DOCS'],
+          example: 'SYNC',
+        },
+      },
+    },
+  })
+  async enqueueJob(@Param('id') id: string, @Body('type') type: JobType) {
+    return this.jobsService.enqueueJob(id, type || 'SYNC');
+  }
+
+  @Get('jobs/:jobId')
+  @ApiOperation({ summary: 'Get status and details of background job by Job ID' })
+  async getJob(@Param('jobId') jobId: string) {
+    return this.jobsService.getJob(jobId);
+  }
+
+  @Get(':id/jobs')
+  @ApiOperation({ summary: 'List all background jobs associated with repository' })
+  async getRepoJobs(@Param('id') id: string) {
+    return this.jobsService.getRepoJobs(id);
   }
 
   @Post(':id/sync')

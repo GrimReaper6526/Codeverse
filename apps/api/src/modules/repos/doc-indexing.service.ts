@@ -116,10 +116,7 @@ export class DocIndexingService {
     };
   }
 
-  private generateChunksFromFiles(
-    repoName: string,
-    files: Array<{ path?: string }>,
-  ): DocChunk[] {
+  private generateChunksFromFiles(repoName: string, files: Array<{ path?: string }>): DocChunk[] {
     const chunks: DocChunk[] = [];
     let count = 1;
 
