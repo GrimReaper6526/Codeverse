@@ -4,6 +4,7 @@ import { ReposService } from './repos.service';
 import { GithubService } from './github.service';
 import { RepoSyncService } from './repo-sync.service';
 import { RepoAnalyzerService } from './repo-analyzer.service';
+import { FileIndexingService } from './file-indexing.service';
 import { ImportRepoDto } from './dto/import-repo.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -17,6 +18,7 @@ export class ReposController {
     private readonly githubService: GithubService,
     private readonly repoSyncService: RepoSyncService,
     private readonly repoAnalyzerService: RepoAnalyzerService,
+    private readonly fileIndexingService: FileIndexingService,
   ) {}
 
   @Post('import')
@@ -47,6 +49,31 @@ export class ReposController {
   @ApiOperation({ summary: 'Get cached/latest analysis report for repository' })
   async getAnalysisReport(@Param('id') id: string) {
     return this.repoAnalyzerService.analyzeRepository(id);
+  }
+
+  @Post(':id/index-files')
+  @ApiOperation({ summary: 'Trigger file indexing for repository' })
+  async indexRepositoryFiles(@Param('id') id: string) {
+    return this.fileIndexingService.indexRepositoryFiles(id);
+  }
+
+  @Get(':id/files')
+  @ApiOperation({ summary: 'Get indexed files for repository with optional search filter' })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  async getIndexedFiles(
+    @Param('id') id: string,
+    @Query('search') search?: string,
+    @Query('limit') limit?: number,
+  ) {
+    return this.fileIndexingService.getIndexedFiles(id, search, limit ? Number(limit) : 50);
+  }
+
+  @Get(':id/files/content')
+  @ApiOperation({ summary: 'Get source content for specific indexed file' })
+  @ApiQuery({ name: 'path', required: true, type: String })
+  async getFileContent(@Param('id') id: string, @Query('path') filePath: string) {
+    return this.fileIndexingService.getFileContent(id, filePath);
   }
 
   @Get('project/:projectId')
