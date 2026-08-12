@@ -14,6 +14,39 @@ export class UserRepository {
     });
   }
 
+  static async findMany(params?: { page?: number; limit?: number; search?: string }) {
+    const page = params?.page || 1;
+    const limit = params?.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const where = params?.search
+      ? {
+          OR: [
+            { name: { contains: params.search, mode: 'insensitive' as const } },
+            { email: { contains: params.search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [items, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.user.count({ where }),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
   static async create(data: {
     email: string;
     name?: string;
@@ -27,10 +60,30 @@ export class UserRepository {
     });
   }
 
+  static async update(
+    id: string,
+    data: {
+      name?: string;
+      avatar?: string;
+      role?: Role;
+    },
+  ) {
+    return prisma.user.update({
+      where: { id },
+      data,
+    });
+  }
+
   static async updateRole(id: string, role: Role) {
     return prisma.user.update({
       where: { id },
       data: { role },
+    });
+  }
+
+  static async delete(id: string) {
+    return prisma.user.delete({
+      where: { id },
     });
   }
 }

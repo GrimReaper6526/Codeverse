@@ -2,7 +2,7 @@ import { prisma } from '../index';
 import { GitProvider } from '@prisma/client';
 
 export class RepoRepository {
-  static async linkToProject(data: {
+  static async create(data: {
     projectId: string;
     name: string;
     gitUrl: string;
@@ -13,6 +13,17 @@ export class RepoRepository {
     return prisma.repository.create({
       data,
     });
+  }
+
+  static async linkToProject(data: {
+    projectId: string;
+    name: string;
+    gitUrl: string;
+    gitProvider?: GitProvider;
+    branch?: string;
+    symbolCount?: number;
+  }) {
+    return this.create(data);
   }
 
   static async updateSymbolCount(id: string, symbolCount: number) {

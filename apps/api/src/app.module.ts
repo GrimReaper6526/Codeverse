@@ -4,6 +4,7 @@ import { DatabaseModule } from './modules/database/database.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 import { ProjectsModule } from './modules/projects/projects.module';
 import { UniverseModule } from './modules/universe/universe.module';
 import { AiModule } from './modules/ai/ai.module';
@@ -17,6 +18,7 @@ import { AiModule } from './modules/ai/ai.module';
     PrismaModule,
     HealthModule,
     AuthModule,
+    UsersModule,
     ProjectsModule,
     UniverseModule,
     AiModule,
