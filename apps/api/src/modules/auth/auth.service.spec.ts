@@ -44,8 +44,8 @@ describe('AuthService', () => {
         name: 'Test User',
         avatar: null,
         passwordHash: 'hashed_password',
-        provider: 'LOCAL' as any,
-        role: 'MEMBER' as any,
+        provider: 'LOCAL' as unknown as any,
+        role: 'MEMBER' as unknown as any,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -74,8 +74,8 @@ describe('AuthService', () => {
         name: 'Test User',
         avatar: null,
         passwordHash: 'hashed_password',
-        provider: 'LOCAL' as any,
-        role: 'MEMBER' as any,
+        provider: 'LOCAL' as unknown as any,
+        role: 'MEMBER' as unknown as any,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -88,6 +88,33 @@ describe('AuthService', () => {
 
       expect(result.accessToken).toBe('mocked-jwt-token');
       expect(result.user.id).toBe('user-123');
+    });
+  });
+
+  describe('validateGithubUser', () => {
+    it('should create new user from GitHub OAuth profile if not existing', async () => {
+      jest.spyOn(UserRepository, 'findByEmail').mockResolvedValue(null);
+      jest.spyOn(UserRepository, 'create').mockResolvedValue({
+        id: 'gh-user-1',
+        email: 'gh@codeverse.ai',
+        name: 'GitHub User',
+        avatar: 'https://github.com/avatar.png',
+        passwordHash: null,
+        provider: 'GITHUB' as unknown as any,
+        role: 'MEMBER' as unknown as any,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      const result = await service.validateGithubUser({
+        email: 'gh@codeverse.ai',
+        name: 'GitHub User',
+        avatar: 'https://github.com/avatar.png',
+        githubId: '12345',
+      });
+
+      expect(result.accessToken).toBe('mocked-jwt-token');
+      expect(result.user.provider).toBe('GITHUB');
     });
   });
 });

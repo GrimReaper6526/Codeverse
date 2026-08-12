@@ -83,8 +83,49 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('User profile not found');
     }
-    const { passwordHash, ...safeUser } = user;
-    return safeUser;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+      role: user.role,
+      provider: user.provider,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  }
+
+  async validateGithubUser(details: {
+    email: string;
+    name: string;
+    avatar?: string;
+    githubId: string;
+  }) {
+    let user = await UserRepository.findByEmail(details.email);
+
+    if (!user) {
+      user = await UserRepository.create({
+        email: details.email,
+        name: details.name,
+        avatar: details.avatar,
+        provider: AuthProvider.GITHUB,
+        role: Role.MEMBER,
+      });
+    }
+
+    const accessToken = this.generateToken(user.id, user.email, user.role);
+
+    return {
+      accessToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        avatar: user.avatar,
+        role: user.role,
+        provider: user.provider,
+      },
+    };
   }
 
   private generateToken(userId: string, email: string, role: string): string {

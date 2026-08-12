@@ -1,10 +1,11 @@
-import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Req } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { GithubAuthGuard } from './guards/github-auth.guard';
 import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
 
@@ -31,6 +32,27 @@ export class AuthController {
   })
   async login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
+  }
+
+  @Public()
+  @Get('github')
+  @UseGuards(GithubAuthGuard)
+  @ApiOperation({ summary: 'Initiate GitHub OAuth authentication flow' })
+  async githubAuth() {
+    // Passport initiates redirect to GitHub
+  }
+
+  @Public()
+  @Get('github/callback')
+  @UseGuards(GithubAuthGuard)
+  @ApiOperation({ summary: 'GitHub OAuth authentication callback' })
+  @ApiResponse({
+    status: 200,
+    description: 'GitHub user authenticated successfully',
+    type: AuthResponseDto,
+  })
+  async githubAuthCallback(@Req() req: { user: AuthResponseDto }) {
+    return req.user;
   }
 
   @Post('logout')
