@@ -26,6 +26,26 @@ export class RepoRepository {
     return this.create(data);
   }
 
+  static async findById(id: string) {
+    return prisma.repository.findUnique({
+      where: { id },
+      include: {
+        project: true,
+      },
+    });
+  }
+
+  static async updateStatus(id: string, status: string, symbolCount?: number) {
+    return prisma.repository.update({
+      where: { id },
+      data: {
+        status,
+        ...(symbolCount !== undefined ? { symbolCount } : {}),
+        lastSync: new Date(),
+      },
+    });
+  }
+
   static async updateSymbolCount(id: string, symbolCount: number) {
     return prisma.repository.update({
       where: { id },
@@ -36,6 +56,13 @@ export class RepoRepository {
   static async listByProject(projectId: string) {
     return prisma.repository.findMany({
       where: { projectId },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  static async delete(id: string) {
+    return prisma.repository.delete({
+      where: { id },
     });
   }
 }

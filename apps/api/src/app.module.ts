@@ -6,6 +6,7 @@ import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { ReposModule } from './modules/repos/repos.module';
 import { UniverseModule } from './modules/universe/universe.module';
 import { AiModule } from './modules/ai/ai.module';
 
@@ -20,6 +21,7 @@ import { AiModule } from './modules/ai/ai.module';
     AuthModule,
     UsersModule,
     ProjectsModule,
+    ReposModule,
     UniverseModule,
     AiModule,
   ],
