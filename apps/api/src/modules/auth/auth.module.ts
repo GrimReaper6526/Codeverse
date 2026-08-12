@@ -8,6 +8,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { GithubStrategy } from './strategies/github.strategy';
 import { GithubAuthGuard } from './guards/github-auth.guard';
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -25,7 +26,21 @@ import { GithubAuthGuard } from './guards/github-auth.guard';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard, GithubStrategy, GithubAuthGuard],
-  exports: [AuthService, JwtModule, JwtAuthGuard, GithubStrategy, GithubAuthGuard],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    JwtAuthGuard,
+    GithubStrategy,
+    GithubAuthGuard,
+    RolesGuard,
+  ],
+  exports: [
+    AuthService,
+    JwtModule,
+    JwtAuthGuard,
+    GithubStrategy,
+    GithubAuthGuard,
+    RolesGuard,
+  ],
 })
 export class AuthModule {}

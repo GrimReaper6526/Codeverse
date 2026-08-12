@@ -19,6 +19,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "types": ["node", "jest"],
     "paths": {
       "@/*": ["./src/*"],
       "@codeverse/types": ["../../packages/types/src"],
@@ -27,5 +28,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "dist/**/*", "**/dist/**", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist", "dist/**/*", "**/dist/**"]
 }
