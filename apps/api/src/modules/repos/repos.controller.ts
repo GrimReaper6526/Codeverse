@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger'
 import { ReposService } from './repos.service';
 import { GithubService } from './github.service';
 import { RepoSyncService } from './repo-sync.service';
+import { RepoAnalyzerService } from './repo-analyzer.service';
 import { ImportRepoDto } from './dto/import-repo.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -15,6 +16,7 @@ export class ReposController {
     private readonly reposService: ReposService,
     private readonly githubService: GithubService,
     private readonly repoSyncService: RepoSyncService,
+    private readonly repoAnalyzerService: RepoAnalyzerService,
   ) {}
 
   @Post('import')
@@ -33,6 +35,18 @@ export class ReposController {
   @ApiOperation({ summary: 'Get repository synchronization status' })
   async getSyncStatus(@Param('id') id: string) {
     return this.repoSyncService.getSyncStatus(id);
+  }
+
+  @Post(':id/analyze')
+  @ApiOperation({ summary: 'Trigger repository code analysis and metrics calculation' })
+  async analyzeRepository(@Param('id') id: string) {
+    return this.repoAnalyzerService.analyzeRepository(id);
+  }
+
+  @Get(':id/analysis')
+  @ApiOperation({ summary: 'Get cached/latest analysis report for repository' })
+  async getAnalysisReport(@Param('id') id: string) {
+    return this.repoAnalyzerService.analyzeRepository(id);
   }
 
   @Get('project/:projectId')

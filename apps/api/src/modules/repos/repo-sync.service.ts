@@ -32,7 +32,8 @@ export class RepoSyncService {
         );
         // Estimate symbol count based on source files in tree
         const sourceFiles = tree.filter(
-          (item) => item.type === 'file' && /\.(ts|tsx|js|jsx|py|go|rs|java|c|cpp)$/.test(item.path),
+          (item) =>
+            item.type === 'file' && /\.(ts|tsx|js|jsx|py|go|rs|java|c|cpp)$/.test(item.path),
         );
         symbolCount = sourceFiles.length * 15; // Estimated 15 symbols per source file
       }
