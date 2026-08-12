@@ -21,6 +21,7 @@
     "@nestjs/platform-express": "^10.3.3",
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/websockets": "^10.3.3",
+    "@octokit/rest": "^22.0.1",
     "@prisma/client": "^5.10.2",
     "bcryptjs": "^3.0.3",
     "class-transformer": "^0.5.1",

@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Delete, Body, Param, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Post, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { ReposService } from './repos.service';
+import { GithubService } from './github.service';
 import { ImportRepoDto } from './dto/import-repo.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -9,7 +10,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('repos')
 export class ReposController {
-  constructor(private readonly reposService: ReposService) {}
+  constructor(
+    private readonly reposService: ReposService,
+    private readonly githubService: GithubService,
+  ) {}
 
   @Post('import')
   @ApiOperation({ summary: 'Import and register a new Git repository' })
@@ -21,6 +25,33 @@ export class ReposController {
   @ApiOperation({ summary: 'List all imported repositories for a project' })
   async findByProject(@Param('projectId') projectId: string) {
     return this.reposService.findByProject(projectId);
+  }
+
+  @Get('github/user-repos')
+  @ApiOperation({ summary: 'List authenticated user GitHub repositories' })
+  async getGithubUserRepos() {
+    return this.githubService.getUserRepositories();
+  }
+
+  @Get('github/tree')
+  @ApiOperation({ summary: 'Fetch GitHub repository file tree structure' })
+  @ApiQuery({ name: 'owner', required: true, type: String })
+  @ApiQuery({ name: 'repo', required: true, type: String })
+  @ApiQuery({ name: 'branch', required: false, type: String })
+  async getGithubTree(
+    @Query('owner') owner: string,
+    @Query('repo') repo: string,
+    @Query('branch') branch?: string,
+  ) {
+    return this.githubService.getRepositoryTree(owner, repo, branch || 'main');
+  }
+
+  @Get('github/branches')
+  @ApiOperation({ summary: 'Fetch GitHub repository branch list' })
+  @ApiQuery({ name: 'owner', required: true, type: String })
+  @ApiQuery({ name: 'repo', required: true, type: String })
+  async getGithubBranches(@Query('owner') owner: string, @Query('repo') repo: string) {
+    return this.githubService.getBranches(owner, repo);
   }
 
   @Get(':id')
