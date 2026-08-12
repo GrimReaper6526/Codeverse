@@ -2,6 +2,7 @@ import { Controller, Get, Post, Delete, Body, Param, Query, UseGuards } from '@n
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { ReposService } from './repos.service';
 import { GithubService } from './github.service';
+import { RepoSyncService } from './repo-sync.service';
 import { ImportRepoDto } from './dto/import-repo.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -13,12 +14,25 @@ export class ReposController {
   constructor(
     private readonly reposService: ReposService,
     private readonly githubService: GithubService,
+    private readonly repoSyncService: RepoSyncService,
   ) {}
 
   @Post('import')
   @ApiOperation({ summary: 'Import and register a new Git repository' })
   async importRepository(@Body() dto: ImportRepoDto) {
     return this.reposService.importRepository(dto);
+  }
+
+  @Post(':id/sync')
+  @ApiOperation({ summary: 'Trigger manual synchronization for a repository' })
+  async syncRepository(@Param('id') id: string) {
+    return this.repoSyncService.syncRepository(id);
+  }
+
+  @Get(':id/sync/status')
+  @ApiOperation({ summary: 'Get repository synchronization status' })
+  async getSyncStatus(@Param('id') id: string) {
+    return this.repoSyncService.getSyncStatus(id);
   }
 
   @Get('project/:projectId')
