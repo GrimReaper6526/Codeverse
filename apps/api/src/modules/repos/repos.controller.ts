@@ -5,6 +5,7 @@ import { GithubService } from './github.service';
 import { RepoSyncService } from './repo-sync.service';
 import { RepoAnalyzerService } from './repo-analyzer.service';
 import { FileIndexingService } from './file-indexing.service';
+import { DocIndexingService } from './doc-indexing.service';
 import { ImportRepoDto } from './dto/import-repo.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
@@ -19,6 +20,7 @@ export class ReposController {
     private readonly repoSyncService: RepoSyncService,
     private readonly repoAnalyzerService: RepoAnalyzerService,
     private readonly fileIndexingService: FileIndexingService,
+    private readonly docIndexingService: DocIndexingService,
   ) {}
 
   @Post('import')
@@ -74,6 +76,25 @@ export class ReposController {
   @ApiQuery({ name: 'path', required: true, type: String })
   async getFileContent(@Param('id') id: string, @Query('path') filePath: string) {
     return this.fileIndexingService.getFileContent(id, filePath);
+  }
+
+  @Post(':id/index-docs')
+  @ApiOperation({ summary: 'Parse and index documentation files in repository' })
+  async indexRepositoryDocs(@Param('id') id: string) {
+    return this.docIndexingService.indexRepositoryDocs(id);
+  }
+
+  @Get(':id/docs')
+  @ApiOperation({ summary: 'Get indexed documentation chunks with search filtering' })
+  @ApiQuery({ name: 'search', required: false, type: String })
+  async getIndexedDocs(@Param('id') id: string, @Query('search') search?: string) {
+    return this.docIndexingService.getIndexedDocs(id, search);
+  }
+
+  @Get(':id/docs/readme')
+  @ApiOperation({ summary: 'Fetch project primary README documentation' })
+  async getReadme(@Param('id') id: string) {
+    return this.docIndexingService.getReadme(id);
   }
 
   @Get('project/:projectId')

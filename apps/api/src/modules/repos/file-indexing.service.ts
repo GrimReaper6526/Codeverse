@@ -43,8 +43,7 @@ export class FileIndexingService {
           type: item.type || 'file',
           size: item.size,
           language: this.mapExtensionToLanguage(item.path || ''),
-          symbolsCount:
-            item.type === 'file' ? Math.max(1, Math.round((item.size || 200) / 40)) : 0,
+          symbolsCount: item.type === 'file' ? Math.max(1, Math.round((item.size || 200) / 40)) : 0,
         }));
       } catch (error) {
         this.logger.warn(`Failed to fetch tree from GitHub, generating mock index: ${error}`);
