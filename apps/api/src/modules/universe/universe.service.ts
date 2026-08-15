@@ -1,8 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  createSampleUniverseGraph,
-  CodeUniverseGraph,
-} from '@codeverse/universe-sdk';
+import { createSampleUniverseGraph, CodeUniverseGraph } from '@codeverse/universe-sdk';
 
 export type NodeType = 'galaxy' | 'star' | 'planet' | 'moon' | 'satellite' | 'service';
 

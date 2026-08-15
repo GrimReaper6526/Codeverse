@@ -1,6 +1,7 @@
-import { Controller, Get, Query, Param, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Query, Param, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { UniverseService } from './universe.service';
+import { DependencyAnalyzerService } from './dependency-analyzer.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('Universe Engine')
@@ -8,7 +9,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard)
 @Controller('universe')
 export class UniverseController {
-  constructor(private readonly universeService: UniverseService) {}
+  constructor(
+    private readonly universeService: UniverseService,
+    private readonly dependencyAnalyzerService: DependencyAnalyzerService,
+  ) {}
 
   @Get('graph')
   @ApiOperation({ summary: 'Fetch full 3D universe graph layout and node clusters' })
@@ -41,5 +45,30 @@ export class UniverseController {
     @Param('targetId') targetId: string,
   ) {
     return this.universeService.getShortestPath(sourceId, targetId);
+  }
+
+  @Post('dependencies')
+  @ApiOperation({ summary: 'Analyze import dependencies across codebase file tree' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        files: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              path: { type: 'string', example: 'apps/api/src/main.ts' },
+              content: { type: 'string', example: "import { NestFactory } from '@nestjs/core';" },
+            },
+          },
+        },
+      },
+    },
+  })
+  async analyzeDependencies(
+    @Body('files') files: Array<{ path: string; content?: string }>,
+  ) {
+    return this.dependencyAnalyzerService.analyzeRepositoryDependencies(files || []);
   }
 }
