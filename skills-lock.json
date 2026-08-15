@@ -91,6 +91,11 @@
       "sourceType": "autoskills-registry",
       "computedHash": "b3b6365653ff318a55181814db0e779ceb097c0c07d8f1442c836a9cfc9e93f4"
     },
+    "threejs-fundamentals": {
+      "source": "cloudai-x/threejs-skills",
+      "sourceType": "autoskills-registry",
+      "computedHash": "4bebfd12aefa07b80874b556a45013f717553a69070fcafe51c37a7eb2ae55b0"
+    },
     "threejs-geometry": {
       "source": "cloudai-x/threejs-skills",
       "sourceType": "autoskills-registry",
