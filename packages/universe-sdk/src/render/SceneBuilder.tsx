@@ -82,7 +82,12 @@ export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
       {node.type === 'planet' && (
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
           <ringGeometry args={[node.size * 1.4, node.size * 1.6, 64]} />
-          <meshBasicMaterial color={node.color} opacity={0.25} transparent side={THREE.DoubleSide} />
+          <meshBasicMaterial
+            color={node.color}
+            opacity={0.25}
+            transparent
+            side={THREE.DoubleSide}
+          />
         </mesh>
       )}
 
