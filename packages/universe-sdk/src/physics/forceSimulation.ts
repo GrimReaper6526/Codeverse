@@ -1,8 +1,9 @@
-/// <reference path="../types/d3-force-3d.d.ts" />
+import '../types/d3-force-3d.d.ts';
 import { SoftwareGraphNode, SoftwareGraphEdge } from '@codeverse/types';
 import * as d3ForceModule from 'd3-force-3d';
 
-const d3Force: typeof d3ForceModule = (d3ForceModule as any).default || d3ForceModule;
+const d3Force: typeof d3ForceModule =
+  (d3ForceModule as unknown as { default?: typeof d3ForceModule }).default || d3ForceModule;
 
 export interface PhysicsNode extends SoftwareGraphNode {
   x?: number;
@@ -29,7 +30,8 @@ export class ForceSimulation3D {
 
   constructor(nodes: SoftwareGraphNode[], edges: SoftwareGraphEdge[]) {
     const physicsNodes: PhysicsNode[] = nodes.map((node) => {
-      const radius = node.type === 'galaxy' ? 8 : node.type === 'star' ? 5 : node.type === 'planet' ? 3 : 1.5;
+      const radius =
+        node.type === 'galaxy' ? 8 : node.type === 'star' ? 5 : node.type === 'planet' ? 3 : 1.5;
       return {
         ...node,
         radius,
@@ -47,13 +49,17 @@ export class ForceSimulation3D {
 
     physicsNodes.forEach((n) => this.nodesMap.set(n.id, n));
 
-    const chargeForce = d3Force.forceManyBody<PhysicsNode>().strength((d: PhysicsNode) => (d.type === 'galaxy' ? -300 : -80));
+    const chargeForce = d3Force
+      .forceManyBody<PhysicsNode>()
+      .strength((d: PhysicsNode) => (d.type === 'galaxy' ? -300 : -80));
     const linkForce = d3Force
       .forceLink<PhysicsNode>(physicsLinks)
       .id((d: PhysicsNode) => String(d.id))
       .distance(30);
     const centerForce = d3Force.forceCenter<PhysicsNode>(0, 0, 0);
-    const collideForce = d3Force.forceCollide<PhysicsNode>().radius((d: PhysicsNode) => (d.radius || 2) * 1.5);
+    const collideForce = d3Force
+      .forceCollide<PhysicsNode>()
+      .radius((d: PhysicsNode) => (d.radius || 2) * 1.5);
 
     this.simulation = d3Force
       .forceSimulation<PhysicsNode>(physicsNodes, 3)

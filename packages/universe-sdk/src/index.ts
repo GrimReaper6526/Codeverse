@@ -1,4 +1,4 @@
-/// <reference path="./types/d3-force-3d.d.ts" />
+import './types/d3-force-3d.d.ts';
 
 export * from './graph/universeGraphBuilder';
 export * from './graph/CodeUniverseGraph';
