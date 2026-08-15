@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Query, Param, UseGuards } from '@nestjs/co
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { UniverseService } from './universe.service';
 import { DependencyAnalyzerService } from './dependency-analyzer.service';
+import { UniverseGeneratorService } from './universe-generator.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('Universe Engine')
@@ -12,6 +13,7 @@ export class UniverseController {
   constructor(
     private readonly universeService: UniverseService,
     private readonly dependencyAnalyzerService: DependencyAnalyzerService,
+    private readonly universeGeneratorService: UniverseGeneratorService,
   ) {}
 
   @Get('graph')
@@ -19,6 +21,13 @@ export class UniverseController {
   @ApiQuery({ name: 'repoId', required: false, type: String })
   async getUniverseGraph(@Query('repoId') repoId?: string) {
     return this.universeService.getUniverseGraph(repoId);
+  }
+
+  @Get('celestial')
+  @ApiOperation({ summary: 'Generate celestial 3D universe with planetary positions, colors, and speeds' })
+  @ApiQuery({ name: 'repoId', required: false, type: String })
+  async getCelestialUniverse(@Query('repoId') repoId?: string) {
+    return this.universeGeneratorService.generateCelestialUniverse(repoId);
   }
 
   @Get('graph/filter')
@@ -40,7 +49,10 @@ export class UniverseController {
 
   @Get('path/:sourceId/:targetId')
   @ApiOperation({ summary: 'Calculate shortest dependency path between two universe graph nodes' })
-  async getShortestPath(@Param('sourceId') sourceId: string, @Param('targetId') targetId: string) {
+  async getShortestPath(
+    @Param('sourceId') sourceId: string,
+    @Param('targetId') targetId: string,
+  ) {
     return this.universeService.getShortestPath(sourceId, targetId);
   }
 
@@ -63,7 +75,9 @@ export class UniverseController {
       },
     },
   })
-  async analyzeDependencies(@Body('files') files: Array<{ path: string; content?: string }>) {
+  async analyzeDependencies(
+    @Body('files') files: Array<{ path: string; content?: string }>,
+  ) {
     return this.dependencyAnalyzerService.analyzeRepositoryDependencies(files || []);
   }
 }
