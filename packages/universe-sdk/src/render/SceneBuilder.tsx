@@ -16,7 +16,10 @@ interface CelestialNodeMeshProps {
   isHovered: boolean;
   isTraceHighlighted?: boolean;
   onSelect: (nodeId: string, isMulti?: boolean) => void;
-  onHover: (nodeId: string | null, event?: { x: number; y: number; point: [number, number, number] }) => void;
+  onHover: (
+    nodeId: string | null,
+    event?: { x: number; y: number; point: [number, number, number] },
+  ) => void;
   onContextMenu?: (node: CelestialNode, screenPos: { x: number; y: number }) => void;
 }
 
@@ -124,7 +127,15 @@ export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
       <Text
         position={[0, node.size + 0.6, 0]}
         fontSize={Math.max(0.4, node.size * 0.25)}
-        color={isSelected ? '#38bdf8' : isHovered ? '#ffffff' : isTraceHighlighted ? '#fbbf24' : '#cbd5e1'}
+        color={
+          isSelected
+            ? '#38bdf8'
+            : isHovered
+              ? '#ffffff'
+              : isTraceHighlighted
+                ? '#fbbf24'
+                : '#cbd5e1'
+        }
         anchorX="center"
         anchorY="bottom"
       >
@@ -181,7 +192,10 @@ interface SceneBuilderProps {
   highlightedEdgeIds?: Set<string>;
   traceNodeIds?: Set<string>;
   onSelectNode: (nodeId: string, isMulti?: boolean) => void;
-  onHoverNode: (nodeId: string | null, details?: { x: number; y: number; point: [number, number, number] }) => void;
+  onHoverNode: (
+    nodeId: string | null,
+    details?: { x: number; y: number; point: [number, number, number] },
+  ) => void;
   onContextMenu?: (node: CelestialNode, screenPos: { x: number; y: number }) => void;
 
   // Camera Engine Integration
@@ -234,7 +248,9 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
 
       {/* Render Celestial Nodes */}
       {nodes.map((node) => {
-        const isSelected = selectedNodeIds ? selectedNodeIds.has(node.id) : selectedNodeId === node.id;
+        const isSelected = selectedNodeIds
+          ? selectedNodeIds.has(node.id)
+          : selectedNodeId === node.id;
         const isHovered = hoveredNodeId === node.id;
         const isTraceHighlighted = traceNodeIds ? traceNodeIds.has(node.id) : false;
 
@@ -295,4 +311,3 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
     </>
   );
 };
-

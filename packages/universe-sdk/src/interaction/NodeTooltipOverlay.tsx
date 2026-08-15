@@ -29,7 +29,10 @@ export const NodeTooltipOverlay: React.FC<NodeTooltipOverlayProps> = ({ hoverDet
     typeColorMap[node.type] || 'from-cyan-500 to-blue-500 border-cyan-400/50 text-cyan-300';
 
   return (
-    <div style={style} className="z-30 transition-all duration-75 ease-out animate-in fade-in zoom-in-95">
+    <div
+      style={style}
+      className="z-30 transition-all duration-75 ease-out animate-in fade-in zoom-in-95"
+    >
       <div className="bg-slate-900/90 backdrop-blur-xl border border-slate-700/80 rounded-xl p-3.5 shadow-2xl min-w-[240px] text-slate-100 space-y-2">
         <div className="flex items-center justify-between space-x-2">
           <span className="font-mono font-bold text-sm text-cyan-300 truncate max-w-[170px]">

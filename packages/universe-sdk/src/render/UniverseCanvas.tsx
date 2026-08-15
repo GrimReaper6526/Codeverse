@@ -236,4 +236,3 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     </div>
   );
 };
-
