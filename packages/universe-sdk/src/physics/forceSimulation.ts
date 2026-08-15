@@ -1,6 +1,8 @@
 /// <reference path="../types/d3-force-3d.d.ts" />
 import { SoftwareGraphNode, SoftwareGraphEdge } from '@codeverse/types';
-import * as d3Force from 'd3-force-3d';
+import * as d3ForceModule from 'd3-force-3d';
+
+const d3Force: typeof d3ForceModule = (d3ForceModule as any).default || d3ForceModule;
 
 export interface PhysicsNode extends SoftwareGraphNode {
   x?: number;
@@ -22,7 +24,7 @@ export interface PhysicsLink {
 }
 
 export class ForceSimulation3D {
-  private simulation: d3Force.Simulation3D<PhysicsNode>;
+  private simulation: d3ForceModule.Simulation3D<PhysicsNode>;
   private nodesMap = new Map<string, PhysicsNode>();
 
   constructor(nodes: SoftwareGraphNode[], edges: SoftwareGraphEdge[]) {
@@ -45,13 +47,13 @@ export class ForceSimulation3D {
 
     physicsNodes.forEach((n) => this.nodesMap.set(n.id, n));
 
-    const chargeForce = d3Force.forceManyBody<PhysicsNode>().strength((d) => (d.type === 'galaxy' ? -300 : -80));
+    const chargeForce = d3Force.forceManyBody<PhysicsNode>().strength((d: PhysicsNode) => (d.type === 'galaxy' ? -300 : -80));
     const linkForce = d3Force
       .forceLink<PhysicsNode>(physicsLinks)
-      .id((d) => String(d.id))
+      .id((d: PhysicsNode) => String(d.id))
       .distance(30);
     const centerForce = d3Force.forceCenter<PhysicsNode>(0, 0, 0);
-    const collideForce = d3Force.forceCollide<PhysicsNode>().radius((d) => (d.radius || 2) * 1.5);
+    const collideForce = d3Force.forceCollide<PhysicsNode>().radius((d: PhysicsNode) => (d.radius || 2) * 1.5);
 
     this.simulation = d3Force
       .forceSimulation<PhysicsNode>(physicsNodes, 3)
@@ -76,6 +78,22 @@ export class ForceSimulation3D {
       map.set(node.id, [node.x ?? 0, node.y ?? 0, node.z ?? 0]);
     }
     return map;
+  }
+
+  setNodePin(id: string, position: [number, number, number] | null): void {
+    const node = this.nodesMap.get(id);
+    if (node) {
+      if (position) {
+        node.fx = position[0];
+        node.fy = position[1];
+        node.fz = position[2];
+      } else {
+        node.fx = null;
+        node.fy = null;
+        node.fz = null;
+      }
+      this.reheat();
+    }
   }
 
   stop(): void {
