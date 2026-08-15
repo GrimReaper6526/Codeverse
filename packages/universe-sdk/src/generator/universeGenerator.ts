@@ -59,7 +59,6 @@ export class UniverseGenerator {
     galaxyName = 'CodeVerse Primary Galaxy',
   ): CelestialUniverse {
     const celestialNodes: CelestialNode[] = [];
-    const nodeMap = new Map<string, CelestialNode>();
 
     const stats = {
       totalGalaxies: 0,
@@ -79,9 +78,9 @@ export class UniverseGenerator {
 
       let size = 1.0 * symbolScale;
       let mass = 1.0 * symbolScale;
-      let orbitalRadius = 10 + i * 6;
-      let rotationSpeed = 0.01;
-      let orbitSpeed = 0.005;
+      const orbitalRadius = 10 + i * 6;
+      const rotationSpeed = 0.01;
+      const orbitSpeed = 0.005;
       let color = this.LANGUAGE_COLORS[language] || this.LANGUAGE_COLORS.default;
       let emissiveIntensity = 0.2;
       let roughness = 0.4;
@@ -150,11 +149,7 @@ export class UniverseGenerator {
         orbitalRadius,
         rotationSpeed: rotationSpeed * (i % 2 === 0 ? 1 : -1),
         orbitSpeed,
-        position: [
-          Number(posX.toFixed(2)),
-          Number(posY.toFixed(2)),
-          Number(posZ.toFixed(2)),
-        ],
+        position: [Number(posX.toFixed(2)), Number(posY.toFixed(2)), Number(posZ.toFixed(2))],
         language,
         emissiveIntensity,
         roughness,
@@ -163,7 +158,6 @@ export class UniverseGenerator {
       };
 
       celestialNodes.push(celestialNode);
-      nodeMap.set(node.id, celestialNode);
     }
 
     return {
