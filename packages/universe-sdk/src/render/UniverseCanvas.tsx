@@ -86,7 +86,12 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
 
   return (
     <div className="relative w-full h-full bg-slate-950 overflow-hidden">
-      <Canvas camera={{ position: cameraEngine.config.defaultPosition, fov: cameraEngine.config.defaultFov }}>
+      <Canvas
+        camera={{
+          position: cameraEngine.config.defaultPosition,
+          fov: cameraEngine.config.defaultFov,
+        }}
+      >
         <SceneBuilder
           nodes={celestialUniverse.nodes}
           edges={celestialUniverse.edges}
@@ -154,4 +159,3 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     </div>
   );
 };
-

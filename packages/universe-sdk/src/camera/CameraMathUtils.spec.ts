@@ -32,11 +32,7 @@ export function runCameraMathUtilsTests() {
 
   // Test 3: Focus
   const targetNode = sampleNodes[1];
-  const focusPose = CameraMathUtils.calculateNodeFocusPose(
-    targetNode,
-    [0, 20, 50],
-    55,
-  );
+  const focusPose = CameraMathUtils.calculateNodeFocusPose(targetNode, [0, 20, 50], 55);
   assert(
     focusPose.target[0] === targetNode.position[0] &&
       focusPose.target[1] === targetNode.position[1] &&
@@ -46,8 +42,5 @@ export function runCameraMathUtilsTests() {
 
   // Test 4: Top Down
   const topDown = CameraMathUtils.calculateTopDownPose(sampleNodes);
-  assert(
-    topDown.position[1] > bounds.center[1],
-    'Top down camera should be above center',
-  );
+  assert(topDown.position[1] > bounds.center[1], 'Top down camera should be above center');
 }

@@ -1,9 +1,5 @@
-export type CameraMode = 
-  | 'OVERVIEW'
-  | 'FOCUS_NODE'
-  | 'ORBIT_TARGET'
-  | 'CINEMATIC_AUTO_ROTATE'
-  | 'TOP_DOWN_MAP';
+export type CameraMode =
+  'OVERVIEW' | 'FOCUS_NODE' | 'ORBIT_TARGET' | 'CINEMATIC_AUTO_ROTATE' | 'TOP_DOWN_MAP';
 
 export interface Vector3Tuple {
   x: number;

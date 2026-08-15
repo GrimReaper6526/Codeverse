@@ -10,7 +10,6 @@ import { CameraController } from '../camera/CameraController';
 import { CameraMode, CameraPose } from '../camera/CameraEngineTypes';
 
 interface CelestialNodeMeshProps {
-
   node: CelestialNode;
   isSelected: boolean;
   isHovered: boolean;
@@ -260,4 +259,3 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
     </>
   );
 };
-

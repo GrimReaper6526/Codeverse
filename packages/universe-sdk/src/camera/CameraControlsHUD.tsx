@@ -49,16 +49,14 @@ export const CameraControlsHUD: React.FC<CameraControlsHUDProps> = ({
           onClick={onFocusNode}
           disabled={!selectedNodeName}
           title={
-            selectedNodeName
-              ? `Focus on ${selectedNodeName} (HotKey: F)`
-              : 'Select a Body to Focus'
+            selectedNodeName ? `Focus on ${selectedNodeName} (HotKey: F)` : 'Select a Body to Focus'
           }
           className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all flex items-center space-x-1.5 ${
             mode === 'FOCUS_NODE'
               ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-glow-cyan'
               : selectedNodeName
-              ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
-              : 'text-slate-600 cursor-not-allowed border border-transparent'
+                ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
+                : 'text-slate-600 cursor-not-allowed border border-transparent'
           }`}
         >
           <span>🎯</span>
@@ -125,20 +123,13 @@ export const CameraControlsHUD: React.FC<CameraControlsHUDProps> = ({
       <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded-full bg-slate-900/60 border border-slate-800/60 backdrop-blur-md">
         <span
           className={`w-1.5 h-1.5 rounded-full ${
-            isTransitioning
-              ? 'bg-amber-400 animate-ping'
-              : 'bg-cyan-400 animate-pulse'
+            isTransitioning ? 'bg-amber-400 animate-ping' : 'bg-cyan-400 animate-pulse'
           }`}
         />
         <span>
-          MODE:{' '}
-          <strong className="text-cyan-300 uppercase">
-            {mode.replace('_', ' ')}
-          </strong>
+          MODE: <strong className="text-cyan-300 uppercase">{mode.replace('_', ' ')}</strong>
         </span>
-        {isTransitioning && (
-          <span className="text-amber-400 font-semibold">[FLYING...]</span>
-        )}
+        {isTransitioning && <span className="text-amber-400 font-semibold">[FLYING...]</span>}
       </div>
     </div>
   );

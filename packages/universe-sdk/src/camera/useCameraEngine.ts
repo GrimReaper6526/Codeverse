@@ -67,10 +67,7 @@ export function useCameraEngine(options: UseCameraEngineOptions = {}) {
    * Resets camera to galaxy overview perspective.
    */
   const resetOverview = useCallback(() => {
-    const pose = CameraMathUtils.calculateOverviewPose(
-      nodesRef.current,
-      fullConfig.defaultFov,
-    );
+    const pose = CameraMathUtils.calculateOverviewPose(nodesRef.current, fullConfig.defaultFov);
 
     setFocusedNodeId(null);
     setTargetPose(pose);

@@ -44,6 +44,9 @@ importers:
       '@codeverse/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@codeverse/universe-sdk':
+        specifier: workspace:*
+        version: link:../../packages/universe-sdk
       '@codeverse/utils':
         specifier: workspace:*
         version: link:../../packages/utils

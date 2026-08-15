@@ -84,18 +84,14 @@ export const CameraController: React.FC<CameraControllerProps> = ({
       camera.position.z += shakeOffset[2];
     }
 
-
     // 5. Update OrbitControls configuration
     controls.minDistance = 2;
     controls.maxDistance = 300;
     controls.maxPolarAngle = mode === 'TOP_DOWN_MAP' ? Math.PI / 2.05 : Math.PI / 1.75;
     controls.enableRotate = mode !== 'TOP_DOWN_MAP';
 
-
     controls.update();
   });
 
   return <OrbitControls ref={controlsRef} makeDefault enableDamping />;
 };
-
-

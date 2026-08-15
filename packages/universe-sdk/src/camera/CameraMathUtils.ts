@@ -72,10 +72,7 @@ export class CameraMathUtils {
   /**
    * Calculates overview camera pose to view the entire software galaxy.
    */
-  static calculateOverviewPose(
-    nodes: NodeSpatialData[],
-    fov: number = 55,
-  ): CameraPose {
+  static calculateOverviewPose(nodes: NodeSpatialData[], fov: number = 55): CameraPose {
     const { center, radius } = this.calculateGalaxyBounds(nodes);
     const radFov = (fov * Math.PI) / 180;
     const distance = (radius * 2.2) / Math.tan(radFov / 2);
@@ -96,9 +93,7 @@ export class CameraMathUtils {
   /**
    * Calculates top-down map camera pose.
    */
-  static calculateTopDownPose(
-    nodes: NodeSpatialData[],
-  ): CameraPose {
+  static calculateTopDownPose(nodes: NodeSpatialData[]): CameraPose {
     const { center, radius } = this.calculateGalaxyBounds(nodes);
     const height = Math.max(radius * 2.5, 40);
 
