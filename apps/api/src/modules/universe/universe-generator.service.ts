@@ -1,8 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  createSampleUniverseGraph,
-  UniverseGenerator,
-} from '@codeverse/universe-sdk';
+import { createSampleUniverseGraph, UniverseGenerator } from '@codeverse/universe-sdk';
 
 @Injectable()
 export class UniverseGeneratorService {

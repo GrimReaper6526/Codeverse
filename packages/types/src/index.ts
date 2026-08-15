@@ -1,12 +1,5 @@
 export type NodeType =
-  | 'galaxy'
-  | 'solar_system'
-  | 'star'
-  | 'planet'
-  | 'moon'
-  | 'satellite'
-  | 'service'
-  | 'node';
+  'galaxy' | 'solar_system' | 'star' | 'planet' | 'moon' | 'satellite' | 'service' | 'node';
 
 export interface SoftwareGraphNode {
   id: string;
