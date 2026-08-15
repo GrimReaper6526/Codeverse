@@ -2,7 +2,8 @@
 
 import React, { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { OrbitControls, Stars, Text, Html } from '@react-three/drei';
+import { OrbitControls, Stars, Text } from '@react-three/drei';
+
 import * as THREE from 'three';
 import { CelestialNode } from '../generator/universeGenerator';
 import { SoftwareGraphEdge } from '@codeverse/types';
@@ -13,16 +14,20 @@ interface CelestialNodeMeshProps {
   node: CelestialNode;
   isSelected: boolean;
   isHovered: boolean;
-  onSelect: (nodeId: string) => void;
-  onHover: (nodeId: string | null) => void;
+  isTraceHighlighted?: boolean;
+  onSelect: (nodeId: string, isMulti?: boolean) => void;
+  onHover: (nodeId: string | null, event?: { x: number; y: number; point: [number, number, number] }) => void;
+  onContextMenu?: (node: CelestialNode, screenPos: { x: number; y: number }) => void;
 }
 
 export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
   node,
   isSelected,
   isHovered,
+  isTraceHighlighted = false,
   onSelect,
   onHover,
+  onContextMenu,
 }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const glowRef = useRef<THREE.Mesh>(null!);
@@ -36,8 +41,20 @@ export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
     }
   });
 
-  const activeColor = isSelected ? '#38bdf8' : isHovered ? '#ffffff' : node.color;
-  const emissiveIntensity = isSelected ? 1.0 : isHovered ? 0.8 : node.emissiveIntensity;
+  const activeColor = isSelected
+    ? '#38bdf8'
+    : isHovered
+      ? '#ffffff'
+      : isTraceHighlighted
+        ? '#fbbf24'
+        : node.color;
+  const emissiveIntensity = isSelected
+    ? 1.0
+    : isHovered
+      ? 0.8
+      : isTraceHighlighted
+        ? 0.6
+        : node.emissiveIntensity;
 
   return (
     <group position={node.position}>
@@ -48,7 +65,7 @@ export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
           <meshBasicMaterial
             color={node.color}
             transparent
-            opacity={isSelected ? 0.4 : isHovered ? 0.3 : 0.15}
+            opacity={isSelected ? 0.4 : isHovered ? 0.3 : isTraceHighlighted ? 0.25 : 0.15}
             side={THREE.BackSide}
           />
         </mesh>
@@ -59,11 +76,21 @@ export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
         ref={meshRef}
         onClick={(e) => {
           e.stopPropagation();
-          onSelect(node.id);
+          onSelect(node.id, e.shiftKey);
+        }}
+        onContextMenu={(e) => {
+          e.stopPropagation();
+          if (onContextMenu) {
+            onContextMenu(node, { x: e.clientX, y: e.clientY });
+          }
         }}
         onPointerOver={(e) => {
           e.stopPropagation();
-          onHover(node.id);
+          onHover(node.id, {
+            x: e.clientX,
+            y: e.clientY,
+            point: [e.point.x, e.point.y, e.point.z],
+          });
         }}
         onPointerOut={(e) => {
           e.stopPropagation();
@@ -97,33 +124,12 @@ export const CelestialNodeMesh: React.FC<CelestialNodeMeshProps> = ({
       <Text
         position={[0, node.size + 0.6, 0]}
         fontSize={Math.max(0.4, node.size * 0.25)}
-        color={isSelected ? '#38bdf8' : isHovered ? '#ffffff' : '#cbd5e1'}
+        color={isSelected ? '#38bdf8' : isHovered ? '#ffffff' : isTraceHighlighted ? '#fbbf24' : '#cbd5e1'}
         anchorX="center"
         anchorY="bottom"
       >
         {node.name}
       </Text>
-
-      {/* HTML Tooltip on Hover */}
-      {isHovered && (
-        <Html distanceFactor={20}>
-          <div className="glass-panel px-3 py-2 rounded-xl text-xs text-slate-100 shadow-glow-cyan pointer-events-none whitespace-nowrap bg-slate-900/90 backdrop-blur-md border border-slate-700">
-            <div className="font-bold text-cyan-400 text-sm flex items-center space-x-1">
-              <span>{node.name}</span>
-              {node.language && (
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">
-                  .{node.language}
-                </span>
-              )}
-            </div>
-            <div className="text-slate-300 text-[11px] mt-1 space-y-0.5 font-mono">
-              <div>Type: {node.type.toUpperCase()}</div>
-              <div>Symbols: {node.symbolCount}</div>
-              <div>Path: {node.path}</div>
-            </div>
-          </div>
-        </Html>
-      )}
     </group>
   );
 };
@@ -134,17 +140,28 @@ interface EdgeLineProps {
   end: [number, number, number];
   strength: number;
   isHighlighted: boolean;
+  isTraceHighlighted?: boolean;
 }
 
-export const EdgeLine: React.FC<EdgeLineProps> = ({ start, end, strength, isHighlighted }) => {
+export const EdgeLine: React.FC<EdgeLineProps> = ({
+  start,
+  end,
+  strength,
+  isHighlighted,
+  isTraceHighlighted = false,
+}) => {
   const points = useMemo(
     () => [new THREE.Vector3(...start), new THREE.Vector3(...end)],
     [start, end],
   );
   const lineGeometry = useMemo(() => new THREE.BufferGeometry().setFromPoints(points), [points]);
 
-  const lineColor = isHighlighted ? '#38bdf8' : '#475569';
-  const lineOpacity = isHighlighted ? 0.9 : Math.min(0.5, Math.max(0.15, strength));
+  const lineColor = isTraceHighlighted ? '#fbbf24' : isHighlighted ? '#38bdf8' : '#475569';
+  const lineOpacity = isTraceHighlighted
+    ? 0.95
+    : isHighlighted
+      ? 0.9
+      : Math.min(0.5, Math.max(0.15, strength));
 
   return (
     // @ts-expect-error - line element JSX binding
@@ -159,9 +176,13 @@ interface SceneBuilderProps {
   nodes: CelestialNode[];
   edges: SoftwareGraphEdge[];
   selectedNodeId: string | null;
+  selectedNodeIds?: Set<string>;
   hoveredNodeId: string | null;
-  onSelectNode: (nodeId: string) => void;
-  onHoverNode: (nodeId: string | null) => void;
+  highlightedEdgeIds?: Set<string>;
+  traceNodeIds?: Set<string>;
+  onSelectNode: (nodeId: string, isMulti?: boolean) => void;
+  onHoverNode: (nodeId: string | null, details?: { x: number; y: number; point: [number, number, number] }) => void;
+  onContextMenu?: (node: CelestialNode, screenPos: { x: number; y: number }) => void;
 
   // Camera Engine Integration
   cameraMode?: CameraMode;
@@ -177,9 +198,13 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
   nodes,
   edges,
   selectedNodeId,
+  selectedNodeIds,
   hoveredNodeId,
+  highlightedEdgeIds,
+  traceNodeIds,
   onSelectNode,
   onHoverNode,
+  onContextMenu,
   cameraMode,
   targetPose,
   isTransitioning = false,
@@ -208,16 +233,24 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
       <Stars radius={150} depth={60} count={5000} factor={5} saturation={0} fade speed={1.5} />
 
       {/* Render Celestial Nodes */}
-      {nodes.map((node) => (
-        <CelestialNodeMesh
-          key={node.id}
-          node={node}
-          isSelected={selectedNodeId === node.id}
-          isHovered={hoveredNodeId === node.id}
-          onSelect={onSelectNode}
-          onHover={onHoverNode}
-        />
-      ))}
+      {nodes.map((node) => {
+        const isSelected = selectedNodeIds ? selectedNodeIds.has(node.id) : selectedNodeId === node.id;
+        const isHovered = hoveredNodeId === node.id;
+        const isTraceHighlighted = traceNodeIds ? traceNodeIds.has(node.id) : false;
+
+        return (
+          <CelestialNodeMesh
+            key={node.id}
+            node={node}
+            isSelected={isSelected}
+            isHovered={isHovered}
+            isTraceHighlighted={isTraceHighlighted}
+            onSelect={onSelectNode}
+            onHover={onHoverNode}
+            onContextMenu={onContextMenu}
+          />
+        );
+      })}
 
       {/* Render Dependency Connections */}
       {edges.map((edge) => {
@@ -231,6 +264,8 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
           hoveredNodeId === edge.source ||
           hoveredNodeId === edge.target;
 
+        const isTraceHighlighted = highlightedEdgeIds ? highlightedEdgeIds.has(edge.id) : false;
+
         return (
           <EdgeLine
             key={edge.id}
@@ -238,6 +273,7 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
             end={end}
             strength={edge.strength}
             isHighlighted={isHighlighted}
+            isTraceHighlighted={isTraceHighlighted}
           />
         );
       })}
@@ -259,3 +295,4 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
     </>
   );
 };
+

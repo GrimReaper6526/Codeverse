@@ -9,3 +9,5 @@ export * from './physics/forceSimulation';
 export * from './render/SceneBuilder';
 export * from './render/UniverseCanvas';
 export * from './camera';
+export * from './interaction';
+

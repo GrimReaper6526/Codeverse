@@ -1,13 +1,17 @@
 'use client';
 
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { SceneBuilder } from './SceneBuilder';
 import { createSampleUniverseGraph } from '../graph/universeGraphBuilder';
 import { UniverseGenerator } from '../generator/universeGenerator';
+
 import { useCameraEngine } from '../camera/useCameraEngine';
 import { useCameraHotkeys } from '../camera/useCameraHotkeys';
 import { CameraControlsHUD } from '../camera/CameraControlsHUD';
+import { useInteractionEngine } from '../interaction/useInteractionEngine';
+import { NodeTooltipOverlay } from '../interaction/NodeTooltipOverlay';
+import { NodeContextMenu } from '../interaction/NodeContextMenu';
 
 interface UniverseCanvasProps {
   repoId?: string;
@@ -15,9 +19,6 @@ interface UniverseCanvasProps {
 }
 
 export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) => {
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
-  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
-
   const celestialUniverse = useMemo(() => {
     const graph = createSampleUniverseGraph();
     return UniverseGenerator.generateCelestialUniverse(graph, 'CodeVerse Software Galaxy');
@@ -36,26 +37,63 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     nodes: spatialNodes,
   });
 
-  const selectedNode = useMemo(() => {
-    return celestialUniverse.nodes.find((n) => n.id === selectedNodeId);
-  }, [celestialUniverse.nodes, selectedNodeId]);
+  const interactionEngine = useInteractionEngine({
+    nodes: celestialUniverse.nodes,
+    edges: celestialUniverse.edges,
+    onSelectNode: onNodeSelect,
 
-  const handleSelectNode = useCallback(
-    (id: string) => {
-      const newSelectedId = selectedNodeId === id ? null : id;
-      setSelectedNodeId(newSelectedId);
-      if (onNodeSelect) {
-        onNodeSelect(newSelectedId);
-      }
-
-      if (newSelectedId) {
-        const nodeData = spatialNodes.find((n) => n.id === newSelectedId);
-        if (nodeData) {
-          cameraEngine.flyToNode(nodeData, cameraEngine.targetPose.position);
-        }
+    onDoubleSelectNode: (node) => {
+      const nodeData = spatialNodes.find((n) => n.id === node.id);
+      if (nodeData) {
+        cameraEngine.flyToNode(nodeData, cameraEngine.targetPose.position);
       }
     },
-    [selectedNodeId, onNodeSelect, spatialNodes, cameraEngine],
+  });
+
+  const primarySelectedId = useMemo(() => {
+    if (interactionEngine.selectedNodeIds.size === 1) {
+      return Array.from(interactionEngine.selectedNodeIds)[0];
+    }
+    return null;
+  }, [interactionEngine.selectedNodeIds]);
+
+  const selectedNode = useMemo(() => {
+    return celestialUniverse.nodes.find((n) => n.id === primarySelectedId);
+  }, [celestialUniverse.nodes, primarySelectedId]);
+
+  const handleSelectNode = useCallback(
+    (id: string, isMulti: boolean = false) => {
+      interactionEngine.selectNode(id, isMulti);
+
+      const nodeData = spatialNodes.find((n) => n.id === id);
+      if (nodeData) {
+        cameraEngine.flyToNode(nodeData, cameraEngine.targetPose.position);
+      }
+    },
+    [interactionEngine, spatialNodes, cameraEngine],
+  );
+
+  const handleHoverNode = useCallback(
+    (id: string | null, details?: { x: number; y: number; point: [number, number, number] }) => {
+      if (!id || !details) {
+        interactionEngine.hoverNode(null, null);
+        return;
+      }
+      const node = celestialUniverse.nodes.find((n) => n.id === id);
+      if (!node) {
+        interactionEngine.hoverNode(null, null);
+        return;
+      }
+
+      interactionEngine.hoverNode(id, {
+        nodeId: id,
+        node,
+        point: details.point,
+        screenPosition: { x: details.x, y: details.y },
+        distance: 0,
+      });
+    },
+    [celestialUniverse.nodes, interactionEngine],
   );
 
   const handleFocusSelected = useCallback(() => {
@@ -66,6 +104,16 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
       }
     }
   }, [selectedNode, spatialNodes, cameraEngine]);
+
+  const handleFocusCameraByNodeId = useCallback(
+    (nodeId: string) => {
+      const nodeData = spatialNodes.find((n) => n.id === nodeId);
+      if (nodeData) {
+        cameraEngine.flyToNode(nodeData, cameraEngine.targetPose.position);
+      }
+    },
+    [spatialNodes, cameraEngine],
+  );
 
   const handleToggleCinematic = useCallback(() => {
     if (cameraEngine.mode === 'CINEMATIC_AUTO_ROTATE') {
@@ -84,6 +132,13 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     onToggleAutoRotate: cameraEngine.toggleAutoRotate,
   });
 
+  const traceNodeIds = useMemo(() => {
+    const set = new Set<string>();
+    interactionEngine.dependencyTrace.upstreamNodeIds.forEach((id) => set.add(id));
+    interactionEngine.dependencyTrace.downstreamNodeIds.forEach((id) => set.add(id));
+    return set;
+  }, [interactionEngine.dependencyTrace]);
+
   return (
     <div className="relative w-full h-full bg-slate-950 overflow-hidden">
       <Canvas
@@ -95,10 +150,14 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
         <SceneBuilder
           nodes={celestialUniverse.nodes}
           edges={celestialUniverse.edges}
-          selectedNodeId={selectedNodeId}
-          hoveredNodeId={hoveredNodeId}
+          selectedNodeId={primarySelectedId}
+          selectedNodeIds={interactionEngine.selectedNodeIds}
+          hoveredNodeId={interactionEngine.hoveredNodeId}
+          highlightedEdgeIds={interactionEngine.dependencyTrace.highlightedEdgeIds}
+          traceNodeIds={traceNodeIds}
           onSelectNode={handleSelectNode}
-          onHoverNode={setHoveredNodeId}
+          onHoverNode={handleHoverNode}
+          onContextMenu={(node, screenPos) => interactionEngine.openContextMenu(node, screenPos)}
           cameraMode={cameraEngine.mode}
           targetPose={cameraEngine.targetPose}
           isTransitioning={cameraEngine.isTransitioning}
@@ -108,6 +167,24 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
           focusedNodePosition={selectedNode ? selectedNode.position : null}
         />
       </Canvas>
+
+      {/* Floating 2D Tooltip Overlay */}
+      <NodeTooltipOverlay hoverDetails={interactionEngine.hoverDetails} />
+
+      {/* Right-Click Context Menu */}
+      <NodeContextMenu
+        contextMenu={interactionEngine.contextMenu}
+        onClose={interactionEngine.closeContextMenu}
+        onFocusCamera={handleFocusCameraByNodeId}
+        onTraceDependencies={(nodeId) => {
+          interactionEngine.selectNode(nodeId);
+        }}
+        onCopyPath={(path) => {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(path);
+          }
+        }}
+      />
 
       {/* Camera Engine Interactive HUD Dock */}
       <CameraControlsHUD
@@ -149,7 +226,7 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
             {selectedNode.type}
           </span>
           <button
-            onClick={() => handleSelectNode(selectedNode.id)}
+            onClick={() => interactionEngine.clearSelection()}
             className="text-slate-400 hover:text-white text-xs font-mono ml-2 border-l border-slate-700 pl-2"
           >
             Clear
@@ -159,3 +236,4 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     </div>
   );
 };
+
