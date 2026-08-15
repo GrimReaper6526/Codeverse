@@ -40,10 +40,7 @@ export class UniverseController {
 
   @Get('path/:sourceId/:targetId')
   @ApiOperation({ summary: 'Calculate shortest dependency path between two universe graph nodes' })
-  async getShortestPath(
-    @Param('sourceId') sourceId: string,
-    @Param('targetId') targetId: string,
-  ) {
+  async getShortestPath(@Param('sourceId') sourceId: string, @Param('targetId') targetId: string) {
     return this.universeService.getShortestPath(sourceId, targetId);
   }
 
@@ -66,9 +63,7 @@ export class UniverseController {
       },
     },
   })
-  async analyzeDependencies(
-    @Body('files') files: Array<{ path: string; content?: string }>,
-  ) {
+  async analyzeDependencies(@Body('files') files: Array<{ path: string; content?: string }>) {
     return this.dependencyAnalyzerService.analyzeRepositoryDependencies(files || []);
   }
 }

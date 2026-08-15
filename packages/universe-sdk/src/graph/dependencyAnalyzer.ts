@@ -34,7 +34,7 @@ export class DependencyAnalyzer {
     for (const filePath of this.filePaths) {
       const fileName = filePath.split('/').pop() || filePath;
       const fileExt = fileName.split('.').pop() || '';
-      
+
       let nodeType: 'planet' | 'service' | 'moon' | 'satellite' = 'planet';
       if (filePath.includes('service') || filePath.includes('api')) {
         nodeType = 'service';
