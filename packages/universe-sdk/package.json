@@ -12,7 +12,10 @@
     "@codeverse/utils": "workspace:*",
     "@react-three/drei": "^9.102.0",
     "@react-three/fiber": "^8.15.19",
+    "@react-three/postprocessing": "^3.0.5",
+    "d3-force-3d": "^3.0.6",
     "framer-motion": "^11.0.8",
+    "postprocessing": "^6.39.4",
     "react": "^18.2.0",
     "three": "^0.162.0"
   },

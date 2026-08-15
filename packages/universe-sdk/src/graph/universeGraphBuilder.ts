@@ -1,4 +1,5 @@
 import { SoftwareGraphNode, SoftwareGraphEdge, UniverseGraph } from '@codeverse/types';
+import { CodeUniverseGraph } from './CodeUniverseGraph';
 
 export function createSampleUniverseGraph(): UniverseGraph {
   const nodes: SoftwareGraphNode[] = [
@@ -74,4 +75,8 @@ export function createSampleUniverseGraph(): UniverseGraph {
   ];
 
   return { nodes, edges };
+}
+
+export function buildUniverseGraphFromJSON(graphData: UniverseGraph): CodeUniverseGraph {
+  return new CodeUniverseGraph(graphData);
 }

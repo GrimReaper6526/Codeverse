@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
+    "jsx": "react-jsx",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -24,7 +25,8 @@
       "@/*": ["./src/*"],
       "@codeverse/types": ["../../packages/types/src"],
       "@codeverse/utils": ["../../packages/utils/src"],
-      "@codeverse/database": ["../../packages/database/src"]
+      "@codeverse/database": ["../../packages/database/src"],
+      "@codeverse/universe-sdk": ["../../packages/universe-sdk/src"]
     }
   },
   "include": ["src/**/*"],

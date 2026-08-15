@@ -12,6 +12,7 @@
   "dependencies": {
     "@codeverse/database": "workspace:*",
     "@codeverse/types": "workspace:*",
+    "@codeverse/universe-sdk": "workspace:*",
     "@codeverse/utils": "workspace:*",
     "@nestjs/common": "^10.3.3",
     "@nestjs/config": "^3.2.0",
