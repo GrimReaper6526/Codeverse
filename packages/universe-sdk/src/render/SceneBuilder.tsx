@@ -6,8 +6,11 @@ import { OrbitControls, Stars, Text, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { CelestialNode } from '../generator/universeGenerator';
 import { SoftwareGraphEdge } from '@codeverse/types';
+import { CameraController } from '../camera/CameraController';
+import { CameraMode, CameraPose } from '../camera/CameraEngineTypes';
 
 interface CelestialNodeMeshProps {
+
   node: CelestialNode;
   isSelected: boolean;
   isHovered: boolean;
@@ -160,6 +163,15 @@ interface SceneBuilderProps {
   hoveredNodeId: string | null;
   onSelectNode: (nodeId: string) => void;
   onHoverNode: (nodeId: string | null) => void;
+
+  // Camera Engine Integration
+  cameraMode?: CameraMode;
+  targetPose?: CameraPose;
+  isTransitioning?: boolean;
+  onTransitionComplete?: () => void;
+  autoRotate?: boolean;
+  shakeOffset?: [number, number, number];
+  focusedNodePosition?: [number, number, number] | null;
 }
 
 export const SceneBuilder: React.FC<SceneBuilderProps> = ({
@@ -169,6 +181,13 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
   hoveredNodeId,
   onSelectNode,
   onHoverNode,
+  cameraMode,
+  targetPose,
+  isTransitioning = false,
+  onTransitionComplete,
+  autoRotate = false,
+  shakeOffset = [0, 0, 0],
+  focusedNodePosition,
 }) => {
   const nodePositionMap = useMemo(() => {
     const map = new Map<string, [number, number, number]>();
@@ -224,8 +243,21 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
         );
       })}
 
-      {/* Smooth Interactive Orbit Controls */}
-      <OrbitControls makeDefault enableDamping />
+      {/* Dynamic Camera Controller or Default Orbit Controls */}
+      {targetPose && cameraMode ? (
+        <CameraController
+          mode={cameraMode}
+          targetPose={targetPose}
+          isTransitioning={isTransitioning}
+          onTransitionComplete={onTransitionComplete}
+          autoRotate={autoRotate}
+          shakeOffset={shakeOffset}
+          focusedNodePosition={focusedNodePosition}
+        />
+      ) : (
+        <OrbitControls makeDefault enableDamping />
+      )}
     </>
   );
 };
+

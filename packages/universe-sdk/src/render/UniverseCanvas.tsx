@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { SceneBuilder } from './SceneBuilder';
 import { createSampleUniverseGraph } from '../graph/universeGraphBuilder';
 import { UniverseGenerator } from '../generator/universeGenerator';
+import { useCameraEngine } from '../camera/useCameraEngine';
+import { useCameraHotkeys } from '../camera/useCameraHotkeys';
+import { CameraControlsHUD } from '../camera/CameraControlsHUD';
 
 interface UniverseCanvasProps {
   repoId?: string;
@@ -20,21 +23,70 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     return UniverseGenerator.generateCelestialUniverse(graph, 'CodeVerse Software Galaxy');
   }, []);
 
-  const handleSelectNode = (id: string) => {
-    const newSelectedId = selectedNodeId === id ? null : id;
-    setSelectedNodeId(newSelectedId);
-    if (onNodeSelect) {
-      onNodeSelect(newSelectedId);
-    }
-  };
+  const spatialNodes = useMemo(() => {
+    return celestialUniverse.nodes.map((n) => ({
+      id: n.id,
+      position: n.position,
+      size: n.size,
+      name: n.name,
+    }));
+  }, [celestialUniverse.nodes]);
+
+  const cameraEngine = useCameraEngine({
+    nodes: spatialNodes,
+  });
 
   const selectedNode = useMemo(() => {
     return celestialUniverse.nodes.find((n) => n.id === selectedNodeId);
   }, [celestialUniverse.nodes, selectedNodeId]);
 
+  const handleSelectNode = useCallback(
+    (id: string) => {
+      const newSelectedId = selectedNodeId === id ? null : id;
+      setSelectedNodeId(newSelectedId);
+      if (onNodeSelect) {
+        onNodeSelect(newSelectedId);
+      }
+
+      if (newSelectedId) {
+        const nodeData = spatialNodes.find((n) => n.id === newSelectedId);
+        if (nodeData) {
+          cameraEngine.flyToNode(nodeData, cameraEngine.targetPose.position);
+        }
+      }
+    },
+    [selectedNodeId, onNodeSelect, spatialNodes, cameraEngine],
+  );
+
+  const handleFocusSelected = useCallback(() => {
+    if (selectedNode) {
+      const nodeData = spatialNodes.find((n) => n.id === selectedNode.id);
+      if (nodeData) {
+        cameraEngine.flyToNode(nodeData, cameraEngine.targetPose.position);
+      }
+    }
+  }, [selectedNode, spatialNodes, cameraEngine]);
+
+  const handleToggleCinematic = useCallback(() => {
+    if (cameraEngine.mode === 'CINEMATIC_AUTO_ROTATE') {
+      cameraEngine.resetOverview();
+    } else {
+      cameraEngine.setMode('CINEMATIC_AUTO_ROTATE');
+    }
+  }, [cameraEngine]);
+
+  // Setup Keyboard Hotkeys (R, F, C, T, Space)
+  useCameraHotkeys({
+    onResetOverview: cameraEngine.resetOverview,
+    onFocusSelected: handleFocusSelected,
+    onToggleCinematic: handleToggleCinematic,
+    onToggleTopDown: cameraEngine.switchToTopDownMap,
+    onToggleAutoRotate: cameraEngine.toggleAutoRotate,
+  });
+
   return (
     <div className="relative w-full h-full bg-slate-950 overflow-hidden">
-      <Canvas camera={{ position: [0, 20, 50], fov: 55 }}>
+      <Canvas camera={{ position: cameraEngine.config.defaultPosition, fov: cameraEngine.config.defaultFov }}>
         <SceneBuilder
           nodes={celestialUniverse.nodes}
           edges={celestialUniverse.edges}
@@ -42,8 +94,28 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
           hoveredNodeId={hoveredNodeId}
           onSelectNode={handleSelectNode}
           onHoverNode={setHoveredNodeId}
+          cameraMode={cameraEngine.mode}
+          targetPose={cameraEngine.targetPose}
+          isTransitioning={cameraEngine.isTransitioning}
+          onTransitionComplete={() => cameraEngine.setIsTransitioning(false)}
+          autoRotate={cameraEngine.autoRotate}
+          shakeOffset={cameraEngine.shakeOffset}
+          focusedNodePosition={selectedNode ? selectedNode.position : null}
         />
       </Canvas>
+
+      {/* Camera Engine Interactive HUD Dock */}
+      <CameraControlsHUD
+        mode={cameraEngine.mode}
+        autoRotate={cameraEngine.autoRotate}
+        isTransitioning={cameraEngine.isTransitioning}
+        selectedNodeName={selectedNode?.name}
+        onOverview={cameraEngine.resetOverview}
+        onFocusNode={handleFocusSelected}
+        onTopDownMap={cameraEngine.switchToTopDownMap}
+        onToggleCinematic={handleToggleCinematic}
+        onToggleAutoRotate={cameraEngine.toggleAutoRotate}
+      />
 
       {/* Floating HUD Information Header */}
       <div className="absolute top-4 left-4 glass-panel px-4 py-3 rounded-2xl text-slate-200 z-10 border border-slate-800 backdrop-blur-md shadow-2xl flex items-center space-x-4">
@@ -82,3 +154,4 @@ export const UniverseCanvas: React.FC<UniverseCanvasProps> = ({ onNodeSelect }) 
     </div>
   );
 };
+
