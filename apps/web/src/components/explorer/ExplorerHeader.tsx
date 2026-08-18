@@ -1,15 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  Globe,
-  FileCode,
-  Link2,
-  Search,
-  Minimize2,
-  Maximize2,
-  Sparkles,
-} from 'lucide-react';
+import { Globe, FileCode, Link2, Search, Minimize2, Maximize2, Sparkles } from 'lucide-react';
 
 export type ExplorerTab = 'architecture' | 'files' | 'dependencies';
 

@@ -96,7 +96,12 @@ export const mockArchitectureTree: ASTNodeItem = {
           complexity: 5,
           children: [
             { id: 'fn-particle-stream', name: 'ParticleStream()', type: 'function', loc: 84 },
-            { id: 'fn-weather-overlay', name: 'WeatherSystemOverlay()', type: 'function', loc: 102 },
+            {
+              id: 'fn-weather-overlay',
+              name: 'WeatherSystemOverlay()',
+              type: 'function',
+              loc: 102,
+            },
           ],
         },
       ],
