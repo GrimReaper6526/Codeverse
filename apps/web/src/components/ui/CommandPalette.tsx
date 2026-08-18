@@ -2,7 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Cpu, Orbit, Zap, Sun, CloudLightning, Layers, X, ArrowRight, Activity } from 'lucide-react';
+import {
+  Search,
+  Cpu,
+  Orbit,
+  Zap,
+  Sun,
+  CloudLightning,
+  Layers,
+  X,
+  ArrowRight,
+  Activity,
+} from 'lucide-react';
 import { useRuntimeEngine } from '@codeverse/universe-sdk';
 
 interface CommandPaletteProps {
@@ -94,7 +105,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
   const filteredCommands = commands.filter(
     (cmd) =>
       cmd.title.toLowerCase().includes(query.toLowerCase()) ||
-      (cmd.subtitle && cmd.subtitle.toLowerCase().includes(query.toLowerCase()))
+      (cmd.subtitle && cmd.subtitle.toLowerCase().includes(query.toLowerCase())),
   );
 
   useEffect(() => {
@@ -116,7 +127,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
         setSelectedIndex((prev) => (prev + 1) % Math.max(1, filteredCommands.length));
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + filteredCommands.length) % Math.max(1, filteredCommands.length));
+        setSelectedIndex(
+          (prev) => (prev - 1 + filteredCommands.length) % Math.max(1, filteredCommands.length),
+        );
       } else if (e.key === 'Enter' && filteredCommands[selectedIndex]) {
         e.preventDefault();
         filteredCommands[selectedIndex].action();
@@ -199,8 +212,14 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
                         {cmd.icon}
                       </div>
                       <div className="flex flex-col overflow-hidden">
-                        <span className="text-xs font-semibold tracking-wide truncate">{cmd.title}</span>
-                        {cmd.subtitle && <span className="text-[10px] text-slate-400 font-mono truncate">{cmd.subtitle}</span>}
+                        <span className="text-xs font-semibold tracking-wide truncate">
+                          {cmd.title}
+                        </span>
+                        {cmd.subtitle && (
+                          <span className="text-[10px] text-slate-400 font-mono truncate">
+                            {cmd.subtitle}
+                          </span>
+                        )}
                       </div>
                     </div>
                     {selectedIndex === idx && (

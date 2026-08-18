@@ -12,7 +12,7 @@ type TelemetryListener = (
   events: TelemetryEvent[],
   particles: ActiveParticle[],
   metrics: RuntimeMetrics,
-  state: SimulationState
+  state: SimulationState,
 ) => void;
 
 export class RuntimeTelemetryEngine {
@@ -63,7 +63,11 @@ export class RuntimeTelemetryEngine {
     };
   }
 
-  public pushEvent(event: TelemetryEvent, sourcePos?: [number, number, number], targetPos?: [number, number, number]): void {
+  public pushEvent(
+    event: TelemetryEvent,
+    sourcePos?: [number, number, number],
+    targetPos?: [number, number, number],
+  ): void {
     this.events.unshift(event);
     if (this.events.length > 100) {
       this.events.pop();
@@ -180,7 +184,9 @@ export class RuntimeTelemetryEngine {
 
   private notify(): void {
     const filteredEvents = this.getFilteredEvents();
-    this.listeners.forEach((fn) => fn(filteredEvents, this.activeParticles, this.metrics, this.state));
+    this.listeners.forEach((fn) =>
+      fn(filteredEvents, this.activeParticles, this.metrics, this.state),
+    );
   }
 
   public getFilteredEvents(): TelemetryEvent[] {
@@ -188,7 +194,8 @@ export class RuntimeTelemetryEngine {
     return this.events.filter((evt) => {
       if (this.state.eventFilter === 'HTTP') return evt.type === 'http_request';
       if (this.state.eventFilter === 'DB') return evt.type === 'db_query';
-      if (this.state.eventFilter === 'CACHE') return evt.type === 'cache_hit' || evt.type === 'cache_miss';
+      if (this.state.eventFilter === 'CACHE')
+        return evt.type === 'cache_hit' || evt.type === 'cache_miss';
       if (this.state.eventFilter === 'KAFKA') return evt.type === 'event_stream';
       if (this.state.eventFilter === 'ERROR') return evt.statusCode >= 400 || evt.type === 'error';
       return true;

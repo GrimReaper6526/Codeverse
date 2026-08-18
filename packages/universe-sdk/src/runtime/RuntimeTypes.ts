@@ -10,12 +10,7 @@ export type TelemetryEventType =
 export type ProtocolType = 'REST' | 'GraphQL' | 'gRPC' | 'WebSocket' | 'Kafka' | 'SQL' | 'Redis';
 
 export type WeatherType =
-  | 'clear_sky'
-  | 'solar_wind'
-  | 'meteor_shower'
-  | 'electrical_storm'
-  | 'nebula_fog'
-  | 'aurora';
+  'clear_sky' | 'solar_wind' | 'meteor_shower' | 'electrical_storm' | 'nebula_fog' | 'aurora';
 
 export interface TelemetryEvent {
   id: string;

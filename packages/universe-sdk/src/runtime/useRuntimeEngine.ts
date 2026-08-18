@@ -9,12 +9,14 @@ export function useRuntimeEngine() {
   const [state, setState] = useState<SimulationState>(globalRuntimeEngine.getState());
 
   useEffect(() => {
-    const unsubscribe = globalRuntimeEngine.addListener((newEvents, newParticles, newMetrics, newState) => {
-      setEvents([...newEvents]);
-      setParticles([...newParticles]);
-      setMetrics({ ...newMetrics });
-      setState({ ...newState });
-    });
+    const unsubscribe = globalRuntimeEngine.addListener(
+      (newEvents, newParticles, newMetrics, newState) => {
+        setEvents([...newEvents]);
+        setParticles([...newParticles]);
+        setMetrics({ ...newMetrics });
+        setState({ ...newState });
+      },
+    );
 
     return unsubscribe;
   }, []);
@@ -24,9 +26,14 @@ export function useRuntimeEngine() {
     particles,
     metrics,
     simulationState: state,
-    setSimulationState: (partial: Partial<SimulationState>) => globalRuntimeEngine.setSimulationState(partial),
-    pushEvent: (evt: TelemetryEvent, srcPos?: [number, number, number], tgtPos?: [number, number, number]) =>
-      globalRuntimeEngine.pushEvent(evt, srcPos, tgtPos),
-    setNodes: (nodes: { id: string; pos: [number, number, number] }[]) => globalRuntimeEngine.setNodes(nodes),
+    setSimulationState: (partial: Partial<SimulationState>) =>
+      globalRuntimeEngine.setSimulationState(partial),
+    pushEvent: (
+      evt: TelemetryEvent,
+      srcPos?: [number, number, number],
+      tgtPos?: [number, number, number],
+    ) => globalRuntimeEngine.pushEvent(evt, srcPos, tgtPos),
+    setNodes: (nodes: { id: string; pos: [number, number, number] }[]) =>
+      globalRuntimeEngine.setNodes(nodes),
   };
 }

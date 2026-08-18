@@ -3,7 +3,11 @@ import { NodeAnimationState } from './AnimationTypes';
 export class AnimationController {
   private states: Map<string, NodeAnimationState> = new Map();
 
-  public registerNode(id: string, initialPosition: [number, number, number], initialScale: number = 1.0): void {
+  public registerNode(
+    id: string,
+    initialPosition: [number, number, number],
+    initialScale: number = 1.0,
+  ): void {
     if (!this.states.has(id)) {
       this.states.set(id, {
         targetPosition: [...initialPosition],

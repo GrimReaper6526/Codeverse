@@ -10,9 +10,21 @@ export const RuntimeTelemetryHUD: React.FC = () => {
 
   const weatherOptions: { type: WeatherType; label: string; icon: React.ReactNode }[] = [
     { type: 'clear_sky', label: 'Clear Sky', icon: <Sun className="w-3.5 h-3.5 text-amber-400" /> },
-    { type: 'solar_wind', label: 'Solar Wind', icon: <Wind className="w-3.5 h-3.5 text-amber-300" /> },
-    { type: 'electrical_storm', label: 'Electrical Storm', icon: <CloudLightning className="w-3.5 h-3.5 text-cyan-400" /> },
-    { type: 'nebula_fog', label: 'Nebula Fog', icon: <Zap className="w-3.5 h-3.5 text-purple-400" /> },
+    {
+      type: 'solar_wind',
+      label: 'Solar Wind',
+      icon: <Wind className="w-3.5 h-3.5 text-amber-300" />,
+    },
+    {
+      type: 'electrical_storm',
+      label: 'Electrical Storm',
+      icon: <CloudLightning className="w-3.5 h-3.5 text-cyan-400" />,
+    },
+    {
+      type: 'nebula_fog',
+      label: 'Nebula Fog',
+      icon: <Zap className="w-3.5 h-3.5 text-purple-400" />,
+    },
   ];
 
   const filterPills = ['ALL', 'HTTP', 'DB', 'CACHE', 'KAFKA', 'ERROR'];
@@ -27,13 +39,17 @@ export const RuntimeTelemetryHUD: React.FC = () => {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold tracking-wider text-xs uppercase text-cyan-400 font-mono">AETHER-OS TELEMETRY</span>
+              <span className="font-semibold tracking-wider text-xs uppercase text-cyan-400 font-mono">
+                AETHER-OS TELEMETRY
+              </span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/30">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
                 LIVE STREAM
               </span>
             </div>
-            <p className="text-[11px] text-slate-400">Real-time Software Physics & Telemetry Engine</p>
+            <p className="text-[11px] text-slate-400">
+              Real-time Software Physics & Telemetry Engine
+            </p>
           </div>
         </div>
 
@@ -41,15 +57,25 @@ export const RuntimeTelemetryHUD: React.FC = () => {
         <div className="hidden md:flex items-center gap-6 font-mono text-xs">
           <div className="flex flex-col items-end">
             <span className="text-[10px] text-slate-400 uppercase">Throughput</span>
-            <span className="font-bold text-cyan-400">{metrics.throughput} <span className="text-[10px] font-normal text-slate-400">req/s</span></span>
+            <span className="font-bold text-cyan-400">
+              {metrics.throughput}{' '}
+              <span className="text-[10px] font-normal text-slate-400">req/s</span>
+            </span>
           </div>
           <div className="flex flex-col items-end">
             <span className="text-[10px] text-slate-400 uppercase">Avg Latency</span>
-            <span className="font-bold text-emerald-400">{metrics.avgLatency} <span className="text-[10px] font-normal text-slate-400">ms</span></span>
+            <span className="font-bold text-emerald-400">
+              {metrics.avgLatency}{' '}
+              <span className="text-[10px] font-normal text-slate-400">ms</span>
+            </span>
           </div>
           <div className="flex flex-col items-end">
             <span className="text-[10px] text-slate-400 uppercase">Error Rate</span>
-            <span className={`font-bold ${metrics.errorRate > 2 ? 'text-rose-400' : 'text-slate-300'}`}>{metrics.errorRate.toFixed(1)}%</span>
+            <span
+              className={`font-bold ${metrics.errorRate > 2 ? 'text-rose-400' : 'text-slate-300'}`}
+            >
+              {metrics.errorRate.toFixed(1)}%
+            </span>
           </div>
           <div className="flex flex-col items-end">
             <span className="text-[10px] text-slate-400 uppercase">Active Streams</span>
@@ -106,12 +132,12 @@ export const RuntimeTelemetryHUD: React.FC = () => {
                         evt.statusCode >= 400
                           ? 'bg-rose-400 animate-pulse'
                           : evt.type === 'http_request'
-                          ? 'bg-emerald-400'
-                          : evt.type === 'db_query'
-                          ? 'bg-blue-400'
-                          : evt.type === 'cache_hit'
-                          ? 'bg-cyan-400'
-                          : 'bg-purple-400'
+                            ? 'bg-emerald-400'
+                            : evt.type === 'db_query'
+                              ? 'bg-blue-400'
+                              : evt.type === 'cache_hit'
+                                ? 'bg-cyan-400'
+                                : 'bg-purple-400'
                       }`}
                     />
                     <span className="text-slate-400 text-[10px]">{evt.protocol}</span>
@@ -141,7 +167,11 @@ export const RuntimeTelemetryHUD: React.FC = () => {
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all shadow-md shadow-cyan-500/10"
             title={simulationState.isPlaying ? 'Pause Simulation' : 'Play Simulation'}
           >
-            {simulationState.isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
+            {simulationState.isPlaying ? (
+              <Pause className="h-4 w-4" />
+            ) : (
+              <Play className="h-4 w-4 ml-0.5" />
+            )}
           </button>
 
           {/* Speed Buttons */}

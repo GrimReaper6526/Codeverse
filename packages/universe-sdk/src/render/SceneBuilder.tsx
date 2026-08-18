@@ -322,4 +322,3 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
     </>
   );
 };
-
