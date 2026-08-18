@@ -24,7 +24,11 @@
       "@/*": ["./src/*"],
       "@codeverse/ui": ["../../packages/ui/src"],
       "@codeverse/types": ["../../packages/types/src"],
-      "@codeverse/utils": ["../../packages/utils/src"]
+      "@codeverse/utils": ["../../packages/utils/src"],
+      "@codeverse/config": ["../../packages/config/src"],
+      "@codeverse/ai-sdk": ["../../packages/ai-sdk/src"],
+      "@codeverse/universe-sdk": ["../../packages/universe-sdk/src"],
+      "@codeverse/database": ["../../packages/database/src"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

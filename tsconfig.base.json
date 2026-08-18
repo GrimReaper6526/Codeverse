@@ -22,7 +22,8 @@
       "@codeverse/utils": ["./packages/utils/src"],
       "@codeverse/config": ["./packages/config/src"],
       "@codeverse/ai-sdk": ["./packages/ai-sdk/src"],
-      "@codeverse/universe-sdk": ["./packages/universe-sdk/src"]
+      "@codeverse/universe-sdk": ["./packages/universe-sdk/src"],
+      "@codeverse/database": ["./packages/database/src"]
     }
   },
   "exclude": ["node_modules", "dist", ".next"]
