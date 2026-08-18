@@ -1,6 +1,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Box, Search, Orbit, Cpu, Settings, Bell, Github, Command, LayoutDashboard } from 'lucide-react';
+import {
+  Box,
+  Search,
+  Orbit,
+  Cpu,
+  Settings,
+  Bell,
+  Github,
+  Command,
+  LayoutDashboard,
+} from 'lucide-react';
 
 interface TopNavProps {
   onOpenSearch?: () => void;
@@ -33,7 +43,9 @@ export const TopNav: React.FC<TopNavProps> = ({ onOpenSearch }) => {
         <Link
           href="/dashboard"
           className={`flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded-md transition-colors cursor-pointer font-medium ${
-            pathname === '/dashboard' ? 'bg-indigo-600/20 text-cyan-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            pathname === '/dashboard'
+              ? 'bg-indigo-600/20 text-cyan-300 border border-indigo-500/30'
+              : 'text-slate-400 hover:text-white hover:bg-slate-900'
           }`}
         >
           <LayoutDashboard className="w-3.5 h-3.5" />
@@ -44,7 +56,9 @@ export const TopNav: React.FC<TopNavProps> = ({ onOpenSearch }) => {
         <Link
           href="/"
           className={`flex items-center space-x-2 text-sm px-2 py-1 rounded-md transition-colors cursor-pointer ${
-            pathname === '/' ? 'bg-indigo-600/20 text-cyan-300 border border-indigo-500/30' : 'text-slate-300 hover:text-white hover:bg-slate-900'
+            pathname === '/'
+              ? 'bg-indigo-600/20 text-cyan-300 border border-indigo-500/30'
+              : 'text-slate-300 hover:text-white hover:bg-slate-900'
           }`}
         >
           <Github className="w-4 h-4 text-slate-400" />

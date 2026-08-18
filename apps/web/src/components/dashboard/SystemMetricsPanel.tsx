@@ -10,7 +10,9 @@ export const SystemMetricsPanel: React.FC = () => {
       <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
         <div className="flex items-center gap-2">
           <Activity className="w-4 h-4 text-cyan-400" />
-          <h3 className="text-sm font-bold text-slate-200 tracking-wide">System Architecture Health</h3>
+          <h3 className="text-sm font-bold text-slate-200 tracking-wide">
+            System Architecture Health
+          </h3>
         </div>
         <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
           HEALTH SCORE: 96/100

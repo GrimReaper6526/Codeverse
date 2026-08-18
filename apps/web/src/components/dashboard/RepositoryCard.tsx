@@ -86,11 +86,15 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({ repo, onLaunchUn
         <div className="grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/60 text-xs mb-4">
           <div className="flex flex-col">
             <span className="text-[10px] text-slate-400 font-medium">Module Planets</span>
-            <span className="text-sm font-bold text-indigo-300 font-mono">{repo.planetCount} Modules</span>
+            <span className="text-sm font-bold text-indigo-300 font-mono">
+              {repo.planetCount} Modules
+            </span>
           </div>
           <div className="flex flex-col">
             <span className="text-[10px] text-slate-400 font-medium font-sans">AST Symbols</span>
-            <span className="text-sm font-bold text-cyan-300 font-mono">{repo.symbolCount} Nodes</span>
+            <span className="text-sm font-bold text-cyan-300 font-mono">
+              {repo.symbolCount} Nodes
+            </span>
           </div>
         </div>
 

@@ -30,7 +30,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             Software Repositories & Universes
           </h1>
           <p className="text-xs md:text-sm text-slate-400 mt-1 max-w-2xl font-sans">
-            Explore 3D architecture graphs, real-time telemetry, and AI repository insights across your connected codebases.
+            Explore 3D architecture graphs, real-time telemetry, and AI repository insights across
+            your connected codebases.
           </p>
         </div>
 

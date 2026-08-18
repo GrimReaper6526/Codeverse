@@ -13,7 +13,8 @@ const initialRepositories: RepositoryData[] = [
     id: '1',
     name: 'Codeverse',
     owner: 'GrimReaper6526',
-    description: 'AI-native software architecture visualization engine with 3D R3F universe canvas & AST graph parser.',
+    description:
+      'AI-native software architecture visualization engine with 3D R3F universe canvas & AST graph parser.',
     provider: 'GITHUB',
     branch: 'main',
     planetCount: 12,
@@ -26,7 +27,8 @@ const initialRepositories: RepositoryData[] = [
     id: '2',
     name: 'microservices-core',
     owner: 'enterprise-org',
-    description: 'Distributed event-driven microservices architecture with Kafka event bus & NestJS gRPC endpoints.',
+    description:
+      'Distributed event-driven microservices architecture with Kafka event bus & NestJS gRPC endpoints.',
     provider: 'GITHUB',
     branch: 'production',
     planetCount: 24,
@@ -39,7 +41,8 @@ const initialRepositories: RepositoryData[] = [
     id: '3',
     name: 'quantum-ui-system',
     owner: 'design-team',
-    description: 'Cybernetic glassmorphic design token library with WebGL dynamic shaders & Framer Motion primitives.',
+    description:
+      'Cybernetic glassmorphic design token library with WebGL dynamic shaders & Framer Motion primitives.',
     provider: 'GITHUB',
     branch: 'main',
     planetCount: 6,
@@ -52,7 +55,8 @@ const initialRepositories: RepositoryData[] = [
     id: '4',
     name: 'ai-rag-orchestrator',
     owner: 'ai-labs',
-    description: 'Multi-provider model router with AST code chunking, PgVector similarity search & context memory.',
+    description:
+      'Multi-provider model router with AST code chunking, PgVector similarity search & context memory.',
     provider: 'GITHUB',
     branch: 'dev',
     planetCount: 10,
@@ -82,7 +86,7 @@ export const DashboardView: React.FC = () => {
     (repo) =>
       repo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       repo.owner.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      repo.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()))
+      repo.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())),
   );
 
   return (
@@ -97,8 +101,12 @@ export const DashboardView: React.FC = () => {
       {/* 2. Primary Repository Universes Grid */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-200 tracking-tight">Active Software Universes</h2>
-          <span className="text-xs font-mono text-slate-400">{filteredRepositories.length} Repositories</span>
+          <h2 className="text-lg font-bold text-slate-200 tracking-tight">
+            Active Software Universes
+          </h2>
+          <span className="text-xs font-mono text-slate-400">
+            {filteredRepositories.length} Repositories
+          </span>
         </div>
 
         {filteredRepositories.length === 0 ? (

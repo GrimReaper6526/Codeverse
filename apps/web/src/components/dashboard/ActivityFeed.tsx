@@ -51,7 +51,9 @@ export const ActivityFeed: React.FC = () => {
       <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-indigo-400" />
-          <h3 className="text-sm font-bold text-slate-200 tracking-wide">Recent Universe & AST Activity</h3>
+          <h3 className="text-sm font-bold text-slate-200 tracking-wide">
+            Recent Universe & AST Activity
+          </h3>
         </div>
         <span className="text-[10px] font-mono text-slate-400">REALTIME STREAM</span>
       </div>
@@ -68,8 +70,8 @@ export const ActivityFeed: React.FC = () => {
                 act.type === 'commit'
                   ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'
                   : act.type === 'ast_sync'
-                  ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
-                  : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
+                    ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
+                    : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
               }`}
             >
               {act.type === 'commit' ? (

@@ -39,7 +39,8 @@ export const ImportRepoModal: React.FC<ImportRepoModalProps> = ({
           id: Date.now().toString(),
           name: repoName,
           owner: repoOwner,
-          description: 'Imported Git repository with real-time 3D universe layout and AST graph indexing.',
+          description:
+            'Imported Git repository with real-time 3D universe layout and AST graph indexing.',
           provider,
           branch,
           planetCount: 8,
@@ -84,7 +85,9 @@ export const ImportRepoModal: React.FC<ImportRepoModalProps> = ({
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-slate-100">Import Git Repository</h2>
-                  <p className="text-xs text-slate-400">Generate 3D Software Universe & AST Index</p>
+                  <p className="text-xs text-slate-400">
+                    Generate 3D Software Universe & AST Index
+                  </p>
                 </div>
               </div>
               <button
@@ -149,7 +152,9 @@ export const ImportRepoModal: React.FC<ImportRepoModalProps> = ({
 
                 {/* AST Indexing Depth */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-300">Universe AST Analysis Depth</label>
+                  <label className="text-xs font-semibold text-slate-300">
+                    Universe AST Analysis Depth
+                  </label>
                   <div className="grid grid-cols-3 gap-2">
                     <button
                       type="button"
@@ -161,7 +166,9 @@ export const ImportRepoModal: React.FC<ImportRepoModalProps> = ({
                       }`}
                     >
                       <div className="font-bold">Full AST Universe</div>
-                      <div className="text-[9px] opacity-75">Functions, Classes & 3D Force Graph</div>
+                      <div className="text-[9px] opacity-75">
+                        Functions, Classes & 3D Force Graph
+                      </div>
                     </button>
                     <button
                       type="button"
@@ -214,8 +221,12 @@ export const ImportRepoModal: React.FC<ImportRepoModalProps> = ({
               <div className="py-12 flex flex-col items-center justify-center text-center space-y-4 font-mono">
                 <Loader2 className="w-10 h-10 text-cyan-400 animate-spin" />
                 <div>
-                  <h3 className="text-sm font-bold text-slate-200">Parsing AST & Building 3D Physics Force Graph...</h3>
-                  <p className="text-xs text-slate-400 mt-1">Extracting modules, planetary orbits, and AI embeddings.</p>
+                  <h3 className="text-sm font-bold text-slate-200">
+                    Parsing AST & Building 3D Physics Force Graph...
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Extracting modules, planetary orbits, and AI embeddings.
+                  </p>
                 </div>
               </div>
             )}
@@ -224,7 +235,9 @@ export const ImportRepoModal: React.FC<ImportRepoModalProps> = ({
               <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
                 <CheckCircle2 className="w-12 h-12 text-emerald-400" />
                 <div>
-                  <h3 className="text-base font-bold text-slate-100">Universe Successfully Initialized!</h3>
+                  <h3 className="text-base font-bold text-slate-100">
+                    Universe Successfully Initialized!
+                  </h3>
                   <p className="text-xs text-slate-400 mt-1">Redirecting to project overview...</p>
                 </div>
               </div>
