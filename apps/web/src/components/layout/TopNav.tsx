@@ -1,18 +1,19 @@
-'use client';
-
-import React from 'react';
-import { Box, Search, Layers, Orbit, Cpu, Settings, Bell, Github, Command } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Box, Search, Orbit, Cpu, Settings, Bell, Github, Command, LayoutDashboard } from 'lucide-react';
 
 interface TopNavProps {
   onOpenSearch?: () => void;
 }
 
 export const TopNav: React.FC<TopNavProps> = ({ onOpenSearch }) => {
+  const pathname = usePathname();
+
   return (
     <header className="h-14 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md px-4 flex items-center justify-between z-30 select-none">
       {/* Brand & Project Selector */}
       <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2 cursor-pointer group">
+        <Link href="/dashboard" className="flex items-center space-x-2 cursor-pointer group">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-glow-indigo transition-transform group-hover:scale-105">
             <div className="w-full h-full bg-slate-950 rounded-[7px] flex items-center justify-center">
               <Box className="w-4 h-4 text-cyan-400" />
@@ -24,17 +25,32 @@ export const TopNav: React.FC<TopNavProps> = ({ onOpenSearch }) => {
           <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono">
             v1.0 MVP
           </span>
-        </div>
+        </Link>
 
         <div className="h-4 w-px bg-slate-800" />
 
-        {/* Repository selector */}
-        <div className="flex items-center space-x-2 text-sm text-slate-300 hover:text-white cursor-pointer px-2 py-1 rounded-md hover:bg-slate-900 transition-colors">
+        {/* Dashboard button */}
+        <Link
+          href="/dashboard"
+          className={`flex items-center space-x-1.5 text-xs px-2.5 py-1 rounded-md transition-colors cursor-pointer font-medium ${
+            pathname === '/dashboard' ? 'bg-indigo-600/20 text-cyan-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-900'
+          }`}
+        >
+          <LayoutDashboard className="w-3.5 h-3.5" />
+          <span>Dashboard</span>
+        </Link>
+
+        {/* Repository 3D Universe link */}
+        <Link
+          href="/"
+          className={`flex items-center space-x-2 text-sm px-2 py-1 rounded-md transition-colors cursor-pointer ${
+            pathname === '/' ? 'bg-indigo-600/20 text-cyan-300 border border-indigo-500/30' : 'text-slate-300 hover:text-white hover:bg-slate-900'
+          }`}
+        >
           <Github className="w-4 h-4 text-slate-400" />
           <span className="font-mono text-xs text-slate-400">GrimReaper6526 /</span>
           <span className="font-semibold text-xs text-cyan-400">Codeverse</span>
-          <Layers className="w-3.5 h-3.5 text-slate-500 ml-1" />
-        </div>
+        </Link>
       </div>
 
       {/* Global Command Palette / Search Trigger */}
