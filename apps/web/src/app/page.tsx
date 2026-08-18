@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { TopNav } from '@/components/layout/TopNav';
 import { LeftExplorer } from '@/components/layout/LeftExplorer';
 import { RightAIAssistant } from '@/components/layout/RightAIAssistant';
 import { BottomConsole } from '@/components/layout/BottomConsole';
 import { ActionDock } from '@/components/ui/ActionDock';
+import { CommandPalette } from '@/components/ui/CommandPalette';
+import { RuntimeTelemetryHUD } from '@/components/universe/RuntimeTelemetryHUD';
 
 // Dynamically import 3D Universe Canvas with SSR disabled for Three.js/WebGL compatibility
 const UniverseCanvas = dynamic(
@@ -25,10 +27,12 @@ const UniverseCanvas = dynamic(
 );
 
 export default function AppShell() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
     <div className="flex flex-col h-screen w-screen bg-slate-950 overflow-hidden select-none">
       {/* 1. Top Navigation Bar */}
-      <TopNav />
+      <TopNav onOpenSearch={() => setIsSearchOpen(true)} />
 
       {/* 2. Primary Workspace Layout */}
       <div className="flex flex-1 relative overflow-hidden">
@@ -38,6 +42,7 @@ export default function AppShell() {
         {/* Center Interactive 3D Software Universe Canvas */}
         <main className="flex-1 relative h-full w-full overflow-hidden">
           <UniverseCanvas />
+          <RuntimeTelemetryHUD />
           <ActionDock />
         </main>
 
@@ -47,6 +52,9 @@ export default function AppShell() {
 
       {/* 3. Bottom Console & Real-time Telemetry */}
       <BottomConsole />
+
+      {/* 4. Global Command Palette Modal */}
+      <CommandPalette isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </div>
   );
 }

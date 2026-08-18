@@ -3,12 +3,13 @@
 import React, { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, Text } from '@react-three/drei';
-
 import * as THREE from 'three';
 import { CelestialNode } from '../generator/universeGenerator';
 import { SoftwareGraphEdge } from '@codeverse/types';
 import { CameraController } from '../camera/CameraController';
 import { CameraMode, CameraPose } from '../camera/CameraEngineTypes';
+import { useAnimationEngine } from '../animation';
+import { ParticleStream, WeatherSystemOverlay, useRuntimeEngine } from '../runtime';
 
 interface CelestialNodeMeshProps {
   node: CelestialNode;
@@ -227,13 +228,19 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
   shakeOffset = [0, 0, 0],
   focusedNodePosition,
 }) => {
+  useAnimationEngine();
+  const { particles, simulationState, setNodes } = useRuntimeEngine();
+
   const nodePositionMap = useMemo(() => {
     const map = new Map<string, [number, number, number]>();
+    const nodeArray: { id: string; pos: [number, number, number] }[] = [];
     for (const node of nodes) {
       map.set(node.id, node.position);
+      nodeArray.push({ id: node.id, pos: node.position });
     }
+    setNodes(nodeArray);
     return map;
-  }, [nodes]);
+  }, [nodes, setNodes]);
 
   return (
     <>
@@ -243,8 +250,12 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
       <pointLight position={[0, 0, 0]} intensity={2.0} color="#fbbf24" distance={100} />
       <pointLight position={[-30, -20, -30]} intensity={0.8} color="#38bdf8" />
 
-      {/* Deep Space Background Stars */}
+      {/* Deep Space Background Stars & Weather Overlay */}
       <Stars radius={150} depth={60} count={5000} factor={5} saturation={0} fade speed={1.5} />
+      <WeatherSystemOverlay weather={simulationState.weather} />
+
+      {/* 3D Telemetry Particle Flow along Edges */}
+      <ParticleStream particles={particles} />
 
       {/* Render Celestial Nodes */}
       {nodes.map((node) => {
@@ -311,3 +322,4 @@ export const SceneBuilder: React.FC<SceneBuilderProps> = ({
     </>
   );
 };
+

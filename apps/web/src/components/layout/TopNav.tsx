@@ -3,7 +3,11 @@
 import React from 'react';
 import { Box, Search, Layers, Orbit, Cpu, Settings, Bell, Github, Command } from 'lucide-react';
 
-export const TopNav: React.FC = () => {
+interface TopNavProps {
+  onOpenSearch?: () => void;
+}
+
+export const TopNav: React.FC<TopNavProps> = ({ onOpenSearch }) => {
   return (
     <header className="h-14 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md px-4 flex items-center justify-between z-30 select-none">
       {/* Brand & Project Selector */}
@@ -37,6 +41,7 @@ export const TopNav: React.FC = () => {
       <div className="flex-1 max-w-md mx-8">
         <button
           type="button"
+          onClick={onOpenSearch}
           aria-label="Open command palette search"
           className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-400 hover:border-slate-700 hover:bg-slate-900 transition-all cursor-pointer group"
         >
